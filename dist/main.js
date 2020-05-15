@@ -165,7 +165,7 @@ var utils_1 = __webpack_require__(4);
  */
 var Color = /** @class */ (function () {
     function Color(value, type) {
-        this.alpha = 1;
+        this._alpha = 1;
         this.red = 0;
         this.green = 0;
         this.blue = 0;
@@ -242,6 +242,16 @@ var Color = /** @class */ (function () {
                 this._hex = new HexInterface(this);
             }
             return this._hex;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Color.prototype, "alpha", {
+        get: function () {
+            return Math.round(utils_1.clamp(this._alpha, 0, 1));
+        },
+        set: function (alpha) {
+            this._alpha = alpha;
         },
         enumerable: false,
         configurable: true

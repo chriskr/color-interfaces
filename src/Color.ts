@@ -20,8 +20,7 @@ import {
  */
 
 class Color implements Color_ {
-  alpha: number = 1;
-
+  private _alpha: number = 1;
   private red: number = 0;
   private green: number = 0;
   private blue: number = 0;
@@ -92,6 +91,14 @@ class Color implements Color_ {
       this._hex = new HexInterface(this);
     }
     return this._hex;
+  }
+
+  set alpha(alpha) {
+    this._alpha = alpha;
+  }
+
+  get alpha() {
+    return Math.round(clamp(this._alpha, 0, 1));
   }
 
   setRed(red: number) {

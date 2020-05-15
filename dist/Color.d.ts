@@ -11,7 +11,7 @@ import { ColorType } from "./consts";
  * See also http://en.wikipedia.org/Color_space
  */
 declare class Color implements Color_ {
-    alpha: number;
+    private _alpha;
     private red;
     private green;
     private blue;
@@ -30,6 +30,8 @@ declare class Color implements Color_ {
     get hsl(): any;
     get hsv(): any;
     get hex(): any;
+    set alpha(alpha: number);
+    get alpha(): number;
     setRed(red: number): void;
     getRed(): number;
     setGreen(green: number): void;
