@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "strict": true,
+    "allowJs": true,
+    "downlevelIteration": true,
+
+    "moduleResolution": "node",
+    "isolatedModules": false,
+    "esModuleInterop": true,
+
+    "lib": ["es2019", "dom"],
+    "jsx": "react",
+
+    "outDir": "./dist",
+    "declaration": true,
+    "module": "commonjs",
+    "sourceMap": true
+  },
+  "include": ["src/**/*"]
+}
