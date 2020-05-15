@@ -1,59 +1,13 @@
 import { Color as Color_, RGB } from "./ColorInterface";
 import RGBInterface from "./RGBInterface";
-import { ColorType, DEFAULT_COLOR, BLACK, WHITE, GREY } from "./consts";
-
-const clamp = (val: number, min: number, max: number) => {
-  return Math.min(Math.max(val, min), max);
-};
-
-const mixRgbColors = (rgb1: RGB, rgb2: RGB, m: number) => [
-  rgb1[0] + m * (rgb2[0] - rgb1[0]),
-  rgb1[1] + m * (rgb2[1] - rgb1[1]),
-  rgb1[2] + m * (rgb2[2] - rgb1[2]),
-];
-
-const toPercent = (value: number) => {
-  return Math.round(value * 100) + "%";
-};
-
-const hueToRgb = (hue: number) => {
-  hue %= 360;
-  let delta = hue % 60;
-  hue -= delta;
-  delta = Math.round((255 / 60) * delta);
-  switch (hue) {
-    case 0:
-      return [255, delta, 0];
-    case 60:
-      return [255 - delta, 255, 0];
-    case 120:
-      return [0, 255, delta];
-    case 180:
-      return [0, 255 - delta, 255];
-    case 240:
-      return [delta, 0, 255];
-    case 300:
-      return [255, 0, 255 - delta];
-  }
-  return [0, 0, 0];
-};
-
-const parseInt10 = (i: string) => {
-  return Number.parseInt(i, 10);
-};
-
-const getTestSpan = () => {
-  let span = testSpan;
-  if (!span || !span.parentNode) {
-    span = testSpan = document.createElement("span");
-    span.style.display = "none";
-    document.body.appendChild(span);
-  }
-  span.style.setProperty("color", DEFAULT_COLOR, "important");
-  return span;
-};
-
-let testSpan: HTMLSpanElement | null = null;
+import { ColorType, BLACK, WHITE, GREY } from "./consts";
+import {
+  clamp,
+  mixRgbColors,
+  hueToRgb,
+  parseInt10,
+  getTestSpan,
+} from "./utils";
 
 /**
  * @constructor
@@ -66,19 +20,20 @@ let testSpan: HTMLSpanElement | null = null;
  */
 
 class Color implements Color_ {
-  red: number = 0;
-  green: number = 0;
-  blue: number = 0;
-  hue: number = 0;
-  saturation: number = 0;
-  lightness: number = 0;
-  saturationV: number = 0;
-  value: number = 0;
   alpha: number = 1;
-  _rgb: RGBInterface | null = null;
-  _hsl: any = null;
-  _hsv: any = null;
-  _hex: any = null;
+
+  private red: number = 0;
+  private green: number = 0;
+  private blue: number = 0;
+  private hue: number = 0;
+  private saturation: number = 0;
+  private lightness: number = 0;
+  private saturationV: number = 0;
+  private value: number = 0;
+  private _rgb: RGBInterface | null = null;
+  private _hsl: any = null;
+  private _hsv: any = null;
+  private _hex: any = null;
 
   constructor(value?: number[] | string, type?: ColorType) {
     if (typeof value === "string") {

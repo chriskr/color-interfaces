@@ -1,12 +1,4 @@
 export interface Color {
-  red: number;
-  green: number;
-  blue: number;
-  hue: number;
-  saturation: number;
-  lightness: number;
-  saturationV: number;
-  value: number;
   alpha: number;
   parseCSSColor(input: string): void;
   rgb: RGBInterface;
