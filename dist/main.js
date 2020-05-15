@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -91,16 +91,42 @@ module.exports =
 
 "use strict";
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var Color_1 = __importDefault(__webpack_require__(1));
-exports.default = Color_1.default;
+exports.RE_HEX_3 = exports.RE_HEX_6 = exports.GREY = exports.WHITE = exports.BLACK = exports.DEFAULT_COLOR = exports.ColorType = void 0;
+var ColorType;
+(function (ColorType) {
+    ColorType[ColorType["KEYWORD"] = 1] = "KEYWORD";
+    ColorType[ColorType["HEX"] = 2] = "HEX";
+    ColorType[ColorType["RGB"] = 3] = "RGB";
+    ColorType[ColorType["RGBA"] = 4] = "RGBA";
+    ColorType[ColorType["HSL"] = 5] = "HSL";
+    ColorType[ColorType["HSLA"] = 6] = "HSLA";
+    ColorType[ColorType["HSV"] = 7] = "HSV";
+})(ColorType = exports.ColorType || (exports.ColorType = {}));
+exports.DEFAULT_COLOR = "black";
+exports.BLACK = [0, 0, 0];
+exports.WHITE = [255, 255, 255];
+exports.GREY = [127.5, 127.5, 127.5];
+exports.RE_HEX_6 = new RegExp("^[0-9a-fA-F]{6}$");
+exports.RE_HEX_3 = new RegExp("^[0-9a-fA-F]{3}$");
 
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var Color_1 = __importDefault(__webpack_require__(2));
+exports.default = Color_1.default;
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -125,54 +151,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var RGBInterface_1 = __importDefault(__webpack_require__(2));
-var consts_1 = __webpack_require__(3);
-var clamp = function (val, min, max) {
-    return Math.min(Math.max(val, min), max);
-};
-var mixRgbColors = function (rgb1, rgb2, m) { return [
-    rgb1[0] + m * (rgb2[0] - rgb1[0]),
-    rgb1[1] + m * (rgb2[1] - rgb1[1]),
-    rgb1[2] + m * (rgb2[2] - rgb1[2]),
-]; };
-var toPercent = function (value) {
-    return Math.round(value * 100) + "%";
-};
-var hueToRgb = function (hue) {
-    hue %= 360;
-    var delta = hue % 60;
-    hue -= delta;
-    delta = Math.round((255 / 60) * delta);
-    switch (hue) {
-        case 0:
-            return [255, delta, 0];
-        case 60:
-            return [255 - delta, 255, 0];
-        case 120:
-            return [0, 255, delta];
-        case 180:
-            return [0, 255 - delta, 255];
-        case 240:
-            return [delta, 0, 255];
-        case 300:
-            return [255, 0, 255 - delta];
-    }
-    return [0, 0, 0];
-};
-var parseInt10 = function (i) {
-    return Number.parseInt(i, 10);
-};
-var getTestSpan = function () {
-    var span = testSpan;
-    if (!span || !span.parentNode) {
-        span = testSpan = document.createElement("span");
-        span.style.display = "none";
-        document.body.appendChild(span);
-    }
-    span.style.setProperty("color", consts_1.DEFAULT_COLOR, "important");
-    return span;
-};
-var testSpan = null;
+var RGBInterface_1 = __importDefault(__webpack_require__(3));
+var consts_1 = __webpack_require__(0);
+var utils_1 = __webpack_require__(4);
 /**
  * @constructor
  *
@@ -184,6 +165,7 @@ var testSpan = null;
  */
 var Color = /** @class */ (function () {
     function Color(value, type) {
+        this.alpha = 1;
         this.red = 0;
         this.green = 0;
         this.blue = 0;
@@ -192,7 +174,6 @@ var Color = /** @class */ (function () {
         this.lightness = 0;
         this.saturationV = 0;
         this.value = 0;
-        this.alpha = 1;
         this._rgb = null;
         this._hsl = null;
         this._hsv = null;
@@ -216,14 +197,14 @@ var Color = /** @class */ (function () {
         }
     }
     Color.prototype.parseCSSColor = function (input) {
-        var span = getTestSpan();
+        var span = utils_1.getTestSpan();
         span.style.setProperty("color", input, "important");
         var raw = window.getComputedStyle(span).color;
         var rawArray = raw.split(/rgba?\(|,s*|\)$/).filter(Boolean);
         if (rawArray.length === 4) {
             this.alpha = parseFloat(rawArray.pop());
         }
-        this.rgb.set(rawArray.map(parseInt10));
+        this.rgb.set(rawArray.map(utils_1.parseInt10));
     };
     Object.defineProperty(Color.prototype, "rgb", {
         get: function () {
@@ -266,67 +247,67 @@ var Color = /** @class */ (function () {
         configurable: true
     });
     Color.prototype.setRed = function (red) {
-        this.red = clamp(red, 0, 255);
+        this.red = utils_1.clamp(red, 0, 255);
         this.updateHslFromRgb();
         this.updateHsvFromHsl();
     };
     Color.prototype.getRed = function () {
-        return Math.round(clamp(this.red, 0, 255));
+        return Math.round(utils_1.clamp(this.red, 0, 255));
     };
     Color.prototype.setGreen = function (green) {
-        this.green = clamp(green, 0, 255);
+        this.green = utils_1.clamp(green, 0, 255);
         this.updateHslFromRgb();
         this.updateHsvFromHsl();
     };
     Color.prototype.getGreen = function () {
-        return Math.round(clamp(this.green, 0, 255));
+        return Math.round(utils_1.clamp(this.green, 0, 255));
     };
     Color.prototype.setBlue = function (blue) {
-        this.blue = clamp(blue, 0, 255);
+        this.blue = utils_1.clamp(blue, 0, 255);
         this.updateHslFromRgb();
         this.updateHsvFromHsl();
     };
     Color.prototype.getBlue = function () {
-        return Math.round(clamp(this.blue, 0, 255));
+        return Math.round(utils_1.clamp(this.blue, 0, 255));
     };
     Color.prototype.setHue = function (hue) {
-        this.hue = clamp(hue, 0, 360);
+        this.hue = utils_1.clamp(hue, 0, 360);
         this.updateRgbFromHsl();
     };
     Color.prototype.getHue = function () {
-        return Math.round(clamp(this.hue, 0, 360));
+        return Math.round(utils_1.clamp(this.hue, 0, 360));
     };
     Color.prototype.setSaturation = function (saturation) {
-        this.saturation = clamp(saturation, 0, 1);
+        this.saturation = utils_1.clamp(saturation, 0, 1);
         this.updateRgbFromHsl();
         this.updateHsvFromHsl();
     };
     Color.prototype.getSaturation = function () {
-        return clamp(this.saturation, 0, 1);
+        return utils_1.clamp(this.saturation, 0, 1);
     };
     Color.prototype.setSaturationV = function (saturationV) {
-        this.saturationV = clamp(saturationV, 0, 1);
+        this.saturationV = utils_1.clamp(saturationV, 0, 1);
         this.updateHslFromHsv();
         this.updateRgbFromHsl();
     };
     Color.prototype.getSaturationV = function () {
-        return clamp(this.saturationV, 0, 1);
+        return utils_1.clamp(this.saturationV, 0, 1);
     };
     Color.prototype.setLightness = function (lightness) {
-        this.lightness = clamp(lightness, 0, 1);
+        this.lightness = utils_1.clamp(lightness, 0, 1);
         this.updateRgbFromHsl();
         this.updateHsvFromHsl();
     };
     Color.prototype.getLightness = function () {
-        return clamp(this.lightness, 0, 1);
+        return utils_1.clamp(this.lightness, 0, 1);
     };
     Color.prototype.setValue = function (value) {
-        this.value = clamp(value, 0, 1);
+        this.value = utils_1.clamp(value, 0, 1);
         this.updateHslFromHsv();
         this.updateRgbFromHsl();
     };
     Color.prototype.getValue = function () {
-        return clamp(this.value, 0, 1);
+        return utils_1.clamp(this.value, 0, 1);
     };
     Color.prototype.getGreyValue = function () {
         return 0.2126 * this.red + 0.7152 * this.green + 0.0722 * this.blue;
@@ -378,11 +359,11 @@ var Color = /** @class */ (function () {
     };
     Color.prototype.updateRgbFromHsl = function () {
         var _a;
-        var rgb1 = hueToRgb(this.hue);
-        var rgb2 = mixRgbColors(rgb1, consts_1.GREY, 1 - this.saturation);
+        var rgb1 = utils_1.hueToRgb(this.hue);
+        var rgb2 = utils_1.mixRgbColors(rgb1, consts_1.GREY, 1 - this.saturation);
         var rgb3 = this.lightness <= 0.5 ? consts_1.BLACK : consts_1.WHITE;
         var mix = 1 - Math.abs(2 * this.lightness - 1);
-        _a = __read(mixRgbColors(rgb3, rgb2, mix), 3), this.red = _a[0], this.green = _a[1], this.blue = _a[2];
+        _a = __read(utils_1.mixRgbColors(rgb3, rgb2, mix), 3), this.red = _a[0], this.green = _a[1], this.blue = _a[2];
     };
     // http://codeitdown.com/hsl-hsb-hsv-color/
     Color.prototype.updateHsvFromHsl = function () {
@@ -404,11 +385,27 @@ exports.default = Color;
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var RGBInterface = /** @class */ (function () {
     function RGBInterface(color) {
@@ -448,9 +445,8 @@ var RGBInterface = /** @class */ (function () {
         return [this.r, this.g, this.b];
     };
     RGBInterface.prototype.set = function (rgb) {
-        this.r = rgb[0];
-        this.g = rgb[1];
-        this.b = rgb[2];
+        var _a;
+        _a = __read(rgb, 3), this.r = _a[0], this.g = _a[1], this.b = _a[2];
     };
     RGBInterface.prototype.toCss = function () {
         return "rgb(" + this.r + ", " + this.g + ", " + this.b + ")";
@@ -461,29 +457,60 @@ exports.default = RGBInterface;
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RE_HEX_3 = exports.RE_HEX_6 = exports.GREY = exports.WHITE = exports.BLACK = exports.DEFAULT_COLOR = exports.ColorType = void 0;
-var ColorType;
-(function (ColorType) {
-    ColorType[ColorType["KEYWORD"] = 1] = "KEYWORD";
-    ColorType[ColorType["HEX"] = 2] = "HEX";
-    ColorType[ColorType["RGB"] = 3] = "RGB";
-    ColorType[ColorType["RGBA"] = 4] = "RGBA";
-    ColorType[ColorType["HSL"] = 5] = "HSL";
-    ColorType[ColorType["HSLA"] = 6] = "HSLA";
-    ColorType[ColorType["HSV"] = 7] = "HSV";
-})(ColorType = exports.ColorType || (exports.ColorType = {}));
-exports.DEFAULT_COLOR = "black";
-exports.BLACK = [0, 0, 0];
-exports.WHITE = [255, 255, 255];
-exports.GREY = [127.5, 127.5, 127.5];
-exports.RE_HEX_6 = new RegExp("^[0-9a-fA-F]{6}$");
-exports.RE_HEX_3 = new RegExp("^[0-9a-fA-F]{3}$");
+exports.getTestSpan = exports.parseInt10 = exports.hueToRgb = exports.toPercent = exports.mixRgbColors = exports.clamp = void 0;
+var consts_1 = __webpack_require__(0);
+exports.clamp = function (val, min, max) {
+    return Math.min(Math.max(val, min), max);
+};
+exports.mixRgbColors = function (rgb1, rgb2, m) { return [
+    rgb1[0] + m * (rgb2[0] - rgb1[0]),
+    rgb1[1] + m * (rgb2[1] - rgb1[1]),
+    rgb1[2] + m * (rgb2[2] - rgb1[2]),
+]; };
+exports.toPercent = function (value) {
+    return Math.round(value * 100) + "%";
+};
+exports.hueToRgb = function (hue) {
+    hue %= 360;
+    var delta = hue % 60;
+    hue -= delta;
+    delta = Math.round((255 / 60) * delta);
+    switch (hue) {
+        case 0:
+            return [255, delta, 0];
+        case 60:
+            return [255 - delta, 255, 0];
+        case 120:
+            return [0, 255, delta];
+        case 180:
+            return [0, 255 - delta, 255];
+        case 240:
+            return [delta, 0, 255];
+        case 300:
+            return [255, 0, 255 - delta];
+    }
+    return [0, 0, 0];
+};
+exports.parseInt10 = function (i) {
+    return Number.parseInt(i, 10);
+};
+exports.getTestSpan = function () {
+    var span = testSpan;
+    if (!span || !span.parentNode) {
+        span = testSpan = document.createElement("span");
+        span.style.display = "none";
+        document.body.appendChild(span);
+    }
+    span.style.setProperty("color", consts_1.DEFAULT_COLOR, "important");
+    return span;
+};
+var testSpan = null;
 
 
 /***/ })

@@ -11,19 +11,19 @@ import { ColorType } from "./consts";
  * See also http://en.wikipedia.org/Color_space
  */
 declare class Color implements Color_ {
-    red: number;
-    green: number;
-    blue: number;
-    hue: number;
-    saturation: number;
-    lightness: number;
-    saturationV: number;
-    value: number;
     alpha: number;
-    _rgb: RGBInterface | null;
-    _hsl: any;
-    _hsv: any;
-    _hex: any;
+    private red;
+    private green;
+    private blue;
+    private hue;
+    private saturation;
+    private lightness;
+    private saturationV;
+    private value;
+    private _rgb;
+    private _hsl;
+    private _hsv;
+    private _hex;
     constructor(value?: number[] | string, type?: ColorType);
     parseCSSColor(input: string): void;
     get rgb(): RGBInterface;

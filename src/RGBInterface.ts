@@ -36,9 +36,7 @@ class RGBInterface implements RGBInterface_ {
   }
 
   set(rgb: RGB) {
-    this.r = rgb[0];
-    this.g = rgb[1];
-    this.b = rgb[2];
+    [this.r, this.g, this.b] = rgb;
   }
 
   toCss() {
