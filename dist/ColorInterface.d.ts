@@ -1,16 +1,4 @@
-import { Color as Color_ } from "./ColorInterface";
-import RGBInterface from "./RGBInterface";
-import { ColorType } from "./consts";
-/**
- * @constructor
- *
- *
- * @class
- * Represent a color. Allows for setting and getting color components based
- * on RGB, HSV and HSL color spaces.
- * See also http://en.wikipedia.org/Color_space
- */
-declare class Color implements Color_ {
+export interface Color {
     red: number;
     green: number;
     blue: number;
@@ -20,16 +8,11 @@ declare class Color implements Color_ {
     saturationV: number;
     value: number;
     alpha: number;
-    _rgb: RGBInterface | null;
-    _hsl: any;
-    _hsv: any;
-    _hex: any;
-    constructor(value?: number[] | string, type?: ColorType);
     parseCSSColor(input: string): void;
-    get rgb(): RGBInterface;
-    get hsl(): any;
-    get hsv(): any;
-    get hex(): any;
+    rgb: RGBInterface;
+    hsl: any;
+    hsv: any;
+    hex: any;
     setRed(red: number): void;
     getRed(): number;
     setGreen(green: number): void;
@@ -50,9 +33,13 @@ declare class Color implements Color_ {
     invert(): this;
     getLuminance(): number;
     getContrastRatio(color2: Color): number;
-    private updateHslFromRgb;
-    private updateRgbFromHsl;
-    private updateHsvFromHsl;
-    private updateHslFromHsv;
 }
-export default Color;
+export declare type RGB = [number, number, number];
+export interface RGBInterface {
+    r: number;
+    g: number;
+    b: number;
+    get: () => RGB;
+    set: (rgb: RGB) => void;
+    toCss: () => string;
+}
