@@ -1,4 +1,4 @@
-import { Color as Color_, RGB } from './ColorInterface';
+import { Color as Color_, RGB, HSV, HSL } from './ColorInterface';
 import RGBInterface from './RGBInterface';
 import HSLInterface from './HSLInterface';
 import HSVInterface from './HSVInterface';
@@ -33,9 +33,9 @@ class Color implements Color_ {
   private saturationV: number = 0;
   private value: number = 0;
   private _rgb: RGBInterface | null = null;
-  private _hsl: any = null;
-  private _hsv: any = null;
-  private _hex: any = null;
+  private _hsl: HSLInterface | null = null;
+  private _hsv: HSVInterface | null = null;
+  private _hex: HexInterface | null = null;
 
   constructor(value?: number[] | string, type?: ColorType) {
     if (typeof value === 'string') {
@@ -48,10 +48,10 @@ class Color implements Color_ {
           this.rgb.set(value as RGB);
           break;
         case ColorType.HSL:
-          this.hsl.set(value);
+          this.hsl.set(value as HSV);
           break;
         case ColorType.HSV:
-          this.hsv.set(value);
+          this.hsv.set(value as HSL);
           break;
       }
     }
@@ -75,21 +75,21 @@ class Color implements Color_ {
     return this._rgb;
   }
 
-  get hsl() {
+  get hsl(): HSLInterface {
     if (!this._hsl) {
       this._hsl = new HSLInterface(this);
     }
     return this._hsl;
   }
 
-  get hsv() {
+  get hsv(): HSVInterface {
     if (!this._hsv) {
       this._hsv = new HSVInterface(this);
     }
     return this._hsv;
   }
 
-  get hex() {
+  get hex(): HexInterface {
     if (!this._hex) {
       this._hex = new HexInterface(this);
     }

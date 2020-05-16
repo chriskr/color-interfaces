@@ -1,5 +1,8 @@
 import { Color as Color_ } from './ColorInterface';
 import RGBInterface from './RGBInterface';
+import HSLInterface from './HSLInterface';
+import HSVInterface from './HSVInterface';
+import HexInterface from './HexInterface';
 import { ColorType } from './consts';
 /**
  * @constructor
@@ -27,9 +30,9 @@ declare class Color implements Color_ {
     constructor(value?: number[] | string, type?: ColorType);
     parseCSSColor(input: string): void;
     get rgb(): RGBInterface;
-    get hsl(): any;
-    get hsv(): any;
-    get hex(): any;
+    get hsl(): HSLInterface;
+    get hsv(): HSVInterface;
+    get hex(): HexInterface;
     set alpha(alpha: number);
     get alpha(): number;
     setRed(red: number): void;
