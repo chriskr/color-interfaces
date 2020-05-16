@@ -1,4 +1,4 @@
-import { RGB } from "./ColorInterface";
+import { RGB } from './ColorInterface';
 export declare const clamp: (val: number, min: number, max: number) => number;
 export declare const mixRgbColors: (rgb1: RGB, rgb2: RGB, m: number) => number[];
 export declare const toPercent: (value: number) => string;

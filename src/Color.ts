@@ -1,13 +1,16 @@
-import { Color as Color_, RGB } from "./ColorInterface";
-import RGBInterface from "./RGBInterface";
-import { ColorType, BLACK, WHITE, GREY } from "./consts";
+import { Color as Color_, RGB } from './ColorInterface';
+import RGBInterface from './RGBInterface';
+import HSLInterface from './HSLInterface';
+import HSVInterface from './HSVInterface';
+import HexInterface from './HexInterface';
+import { ColorType, BLACK, WHITE, GREY } from './consts';
 import {
   clamp,
   mixRgbColors,
   hueToRgb,
   parseInt10,
   getTestSpan,
-} from "./utils";
+} from './utils';
 
 /**
  * @constructor
@@ -35,7 +38,7 @@ class Color implements Color_ {
   private _hex: any = null;
 
   constructor(value?: number[] | string, type?: ColorType) {
-    if (typeof value === "string") {
+    if (typeof value === 'string') {
       this.parseCSSColor(value);
     }
     if (Array.isArray(value)) {
@@ -56,7 +59,7 @@ class Color implements Color_ {
 
   parseCSSColor(input: string) {
     const span = getTestSpan();
-    span.style.setProperty("color", input, "important");
+    span.style.setProperty('color', input, 'important');
     const raw = window.getComputedStyle(span).color;
     const rawArray: string[] = raw.split(/rgba?\(|,s*|\)$/).filter(Boolean);
     if (rawArray.length === 4) {

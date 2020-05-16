@@ -14,7 +14,7 @@
 
     "outDir": "./dist",
     "declaration": true,
-    "module": "commonjs",
+    "module": "CommonJS",
     "sourceMap": true
   },
   "include": ["src/**/*"]

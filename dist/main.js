@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -117,16 +117,73 @@ exports.RE_HEX_3 = new RegExp("^[0-9a-fA-F]{3}$");
 
 "use strict";
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var Color_1 = __importDefault(__webpack_require__(2));
-exports.default = Color_1.default;
+exports.getTestSpan = exports.parseInt10 = exports.hueToRgb = exports.toPercent = exports.mixRgbColors = exports.clamp = void 0;
+var consts_1 = __webpack_require__(0);
+exports.clamp = function (val, min, max) {
+    return Math.min(Math.max(val, min), max);
+};
+exports.mixRgbColors = function (rgb1, rgb2, m) { return [
+    rgb1[0] + m * (rgb2[0] - rgb1[0]),
+    rgb1[1] + m * (rgb2[1] - rgb1[1]),
+    rgb1[2] + m * (rgb2[2] - rgb1[2]),
+]; };
+exports.toPercent = function (value) {
+    return Math.round(value * 100) + "%";
+};
+exports.hueToRgb = function (hue) {
+    hue %= 360;
+    var delta = hue % 60;
+    hue -= delta;
+    delta = Math.round((255 / 60) * delta);
+    switch (hue) {
+        case 0:
+            return [255, delta, 0];
+        case 60:
+            return [255 - delta, 255, 0];
+        case 120:
+            return [0, 255, delta];
+        case 180:
+            return [0, 255 - delta, 255];
+        case 240:
+            return [delta, 0, 255];
+        case 300:
+            return [255, 0, 255 - delta];
+    }
+    return [0, 0, 0];
+};
+exports.parseInt10 = function (i) {
+    return Number.parseInt(i, 10);
+};
+exports.getTestSpan = function () {
+    var span = testSpan;
+    if (!span || !span.parentNode) {
+        span = testSpan = document.createElement('span');
+        span.style.display = 'none';
+        document.body.appendChild(span);
+    }
+    span.style.setProperty('color', consts_1.DEFAULT_COLOR, 'important');
+    return span;
+};
+var testSpan = null;
 
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var Color_1 = __importDefault(__webpack_require__(3));
+exports.default = Color_1.default;
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -151,9 +208,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var RGBInterface_1 = __importDefault(__webpack_require__(3));
+var RGBInterface_1 = __importDefault(__webpack_require__(4));
+var HSLInterface_1 = __importDefault(__webpack_require__(5));
+var HSVInterface_1 = __importDefault(__webpack_require__(6));
+var HexInterface_1 = __importDefault(__webpack_require__(7));
 var consts_1 = __webpack_require__(0);
-var utils_1 = __webpack_require__(4);
+var utils_1 = __webpack_require__(1);
 /**
  * @constructor
  *
@@ -178,7 +238,7 @@ var Color = /** @class */ (function () {
         this._hsl = null;
         this._hsv = null;
         this._hex = null;
-        if (typeof value === "string") {
+        if (typeof value === 'string') {
             this.parseCSSColor(value);
         }
         if (Array.isArray(value)) {
@@ -198,7 +258,7 @@ var Color = /** @class */ (function () {
     }
     Color.prototype.parseCSSColor = function (input) {
         var span = utils_1.getTestSpan();
-        span.style.setProperty("color", input, "important");
+        span.style.setProperty('color', input, 'important');
         var raw = window.getComputedStyle(span).color;
         var rawArray = raw.split(/rgba?\(|,s*|\)$/).filter(Boolean);
         if (rawArray.length === 4) {
@@ -219,7 +279,7 @@ var Color = /** @class */ (function () {
     Object.defineProperty(Color.prototype, "hsl", {
         get: function () {
             if (!this._hsl) {
-                this._hsl = new HSLInterface(this);
+                this._hsl = new HSLInterface_1.default(this);
             }
             return this._hsl;
         },
@@ -229,7 +289,7 @@ var Color = /** @class */ (function () {
     Object.defineProperty(Color.prototype, "hsv", {
         get: function () {
             if (!this._hsv) {
-                this._hsv = new HSVInterface(this);
+                this._hsv = new HSVInterface_1.default(this);
             }
             return this._hsv;
         },
@@ -239,7 +299,7 @@ var Color = /** @class */ (function () {
     Object.defineProperty(Color.prototype, "hex", {
         get: function () {
             if (!this._hex) {
-                this._hex = new HexInterface(this);
+                this._hex = new HexInterface_1.default(this);
             }
             return this._hex;
         },
@@ -395,7 +455,7 @@ exports.default = Color;
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -467,60 +527,189 @@ exports.default = RGBInterface;
 
 
 /***/ }),
-/* 4 */
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = __webpack_require__(1);
+var HSLInterface = /** @class */ (function () {
+    function HSLInterface(color) {
+        this.color = color;
+    }
+    Object.defineProperty(HSLInterface.prototype, "h", {
+        get: function () {
+            return this.color.getHue();
+        },
+        set: function (h) {
+            this.color.setHue(h);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(HSLInterface.prototype, "s", {
+        get: function () {
+            return this.color.getSaturation();
+        },
+        set: function (s) {
+            this.color.setSaturation(s);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(HSLInterface.prototype, "l", {
+        get: function () {
+            return this.color.getLightness();
+        },
+        set: function (l) {
+            this.color.setLightness(l);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    HSLInterface.prototype.get = function () {
+        return [this.h, this.s, this.l];
+    };
+    HSLInterface.prototype.set = function (hsl) {
+        var _a;
+        _a = __read(hsl, 3), this.h = _a[0], this.s = _a[1], this.l = _a[2];
+    };
+    HSLInterface.prototype.toCss = function () {
+        var s = utils_1.toPercent(this.s);
+        var l = utils_1.toPercent(this.l);
+        return "hsl(" + this.h + ", " + s + ", " + l + ")";
+    };
+    return HSLInterface;
+}());
+exports.default = HSLInterface;
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var HSVInterface = /** @class */ (function () {
+    function HSVInterface(color) {
+        this.color = color;
+    }
+    Object.defineProperty(HSVInterface.prototype, "h", {
+        get: function () {
+            return this.color.getHue();
+        },
+        set: function (h) {
+            this.color.setHue(h);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(HSVInterface.prototype, "s", {
+        get: function () {
+            return this.color.getSaturationV();
+        },
+        set: function (s) {
+            this.color.setSaturationV(s);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(HSVInterface.prototype, "v", {
+        get: function () {
+            return this.color.getValue();
+        },
+        set: function (v) {
+            this.color.setValue(v);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    HSVInterface.prototype.get = function () {
+        return [this.h, this.s, this.v];
+    };
+    HSVInterface.prototype.set = function (hsv) {
+        var _a;
+        _a = __read(hsv, 3), this.h = _a[0], this.s = _a[1], this.v = _a[2];
+    };
+    HSVInterface.prototype.toCss = function () {
+        return this.color.hsl.toCss();
+    };
+    return HSVInterface;
+}());
+exports.default = HSVInterface;
+
+
+/***/ }),
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTestSpan = exports.parseInt10 = exports.hueToRgb = exports.toPercent = exports.mixRgbColors = exports.clamp = void 0;
 var consts_1 = __webpack_require__(0);
-exports.clamp = function (val, min, max) {
-    return Math.min(Math.max(val, min), max);
-};
-exports.mixRgbColors = function (rgb1, rgb2, m) { return [
-    rgb1[0] + m * (rgb2[0] - rgb1[0]),
-    rgb1[1] + m * (rgb2[1] - rgb1[1]),
-    rgb1[2] + m * (rgb2[2] - rgb1[2]),
-]; };
-exports.toPercent = function (value) {
-    return Math.round(value * 100) + "%";
-};
-exports.hueToRgb = function (hue) {
-    hue %= 360;
-    var delta = hue % 60;
-    hue -= delta;
-    delta = Math.round((255 / 60) * delta);
-    switch (hue) {
-        case 0:
-            return [255, delta, 0];
-        case 60:
-            return [255 - delta, 255, 0];
-        case 120:
-            return [0, 255, delta];
-        case 180:
-            return [0, 255 - delta, 255];
-        case 240:
-            return [delta, 0, 255];
-        case 300:
-            return [255, 0, 255 - delta];
+var HexInterface = /** @class */ (function () {
+    function HexInterface(color) {
+        this.color = color;
     }
-    return [0, 0, 0];
-};
-exports.parseInt10 = function (i) {
-    return Number.parseInt(i, 10);
-};
-exports.getTestSpan = function () {
-    var span = testSpan;
-    if (!span || !span.parentNode) {
-        span = testSpan = document.createElement("span");
-        span.style.display = "none";
-        document.body.appendChild(span);
-    }
-    span.style.setProperty("color", consts_1.DEFAULT_COLOR, "important");
-    return span;
-};
-var testSpan = null;
+    HexInterface.prototype.set = function (hex) {
+        if (!(consts_1.RE_HEX_3.test(hex) || consts_1.RE_HEX_6.test(hex))) {
+            throw Error('Not valid hex color');
+        }
+        if (consts_1.RE_HEX_3.test(hex)) {
+            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+        }
+        var temp = Number.parseInt(hex, 16);
+        this.color.rgb.set([temp >> 16, (temp >> 8) & 0xff, temp & 0xff]);
+    };
+    HexInterface.prototype.get = function () {
+        var rgb = this.color.rgb;
+        var hex = ((rgb.r << 16) | (rgb.g << 8) | rgb.b).toString(16);
+        return "" + '0'.repeat(6 - hex.length) + hex;
+    };
+    HexInterface.prototype.toCss = function () {
+        var hex = this.get();
+        if (hex[0] === hex[1] && hex[2] === hex[3] && hex[4] === hex[5]) {
+            hex = "" + hex[0] + hex[2] + hex[4];
+        }
+        return "#" + hex;
+    };
+    return HexInterface;
+}());
+exports.default = HexInterface;
 
 
 /***/ })

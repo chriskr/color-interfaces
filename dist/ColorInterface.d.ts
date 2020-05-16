@@ -2,9 +2,9 @@ export interface Color {
     alpha: number;
     parseCSSColor(input: string): void;
     rgb: RGBInterface;
-    hsl: any;
-    hsv: any;
-    hex: any;
+    hsl: HSLInterface;
+    hsv: HSVInterface;
+    hex: HexInterface;
     setRed(red: number): void;
     getRed(): number;
     setGreen(green: number): void;
@@ -27,11 +27,38 @@ export interface Color {
     getContrastRatio(color2: Color): number;
 }
 export declare type RGB = [number, number, number];
+export declare type RGBA = [number, number, number, number];
+export declare type HSL = [number, number, number];
+export declare type HSLA = [number, number, number, number];
+export declare type HSV = [number, number, number];
+export declare type HSVA = [number, number, number, number];
+export declare type HEX = string;
 export interface RGBInterface {
     r: number;
     g: number;
     b: number;
     get: () => RGB;
     set: (rgb: RGB) => void;
+    toCss: () => string;
+}
+export interface HSLInterface {
+    h: number;
+    s: number;
+    l: number;
+    get: () => HSL;
+    set: (hsv: HSL) => void;
+    toCss: () => string;
+}
+export interface HSVInterface {
+    h: number;
+    s: number;
+    v: number;
+    get: () => HSV;
+    set: (hsv: HSV) => void;
+    toCss: () => string;
+}
+export interface HexInterface {
+    get: () => HEX;
+    set: (hex: HEX) => void;
     toCss: () => string;
 }

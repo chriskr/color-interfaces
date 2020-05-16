@@ -1,6 +1,6 @@
-import { Color as Color_ } from "./ColorInterface";
-import RGBInterface from "./RGBInterface";
-import { ColorType } from "./consts";
+import { Color as Color_ } from './ColorInterface';
+import RGBInterface from './RGBInterface';
+import { ColorType } from './consts';
 /**
  * @constructor
  *

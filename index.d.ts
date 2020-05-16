@@ -1,2 +1,2 @@
-import Color from './dist/Color';
+import Color from './dist/index';
 export default Color;

@@ -1,5 +1,5 @@
-import { RGB } from "./ColorInterface";
-import { DEFAULT_COLOR } from "./consts";
+import { RGB } from './ColorInterface';
+import { DEFAULT_COLOR } from './consts';
 
 export const clamp = (val: number, min: number, max: number) => {
   return Math.min(Math.max(val, min), max);
@@ -12,7 +12,7 @@ export const mixRgbColors = (rgb1: RGB, rgb2: RGB, m: number) => [
 ];
 
 export const toPercent = (value: number) => {
-  return Math.round(value * 100) + "%";
+  return `${Math.round(value * 100)}%`;
 };
 
 export const hueToRgb = (hue: number) => {
@@ -44,11 +44,11 @@ export const parseInt10 = (i: string) => {
 export const getTestSpan = () => {
   let span = testSpan;
   if (!span || !span.parentNode) {
-    span = testSpan = document.createElement("span");
-    span.style.display = "none";
+    span = testSpan = document.createElement('span');
+    span.style.display = 'none';
     document.body.appendChild(span);
   }
-  span.style.setProperty("color", DEFAULT_COLOR, "important");
+  span.style.setProperty('color', DEFAULT_COLOR, 'important');
   return span;
 };
 
