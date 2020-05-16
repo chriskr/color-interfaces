@@ -1,39 +1,31 @@
 export interface Color {
-  alpha: number;
-  parseCSSColor(input: string): void;
   rgb: RGBInterface;
   hsl: HSLInterface;
   hsv: HSVInterface;
   hex: HexInterface;
-  setRed(red: number): void;
+  alpha: number;
   getRed(): number;
-  setGreen(green: number): void;
+  setRed(red: number): void;
   getGreen(): number;
-  setBlue(blue: number): void;
+  setGreen(green: number): void;
   getBlue(): number;
-  setHue(hue: number): void;
+  setBlue(blue: number): void;
   getHue(): number;
-  setSaturation(saturation: number): void;
+  setHue(hue: number): void;
   getSaturation(): number;
-  setSaturationV(saturationV: number): void;
-  getSaturationV(): number;
-  setLightness(lightness: number): void;
+  setSaturation(saturation: number): void;
   getLightness(): number;
-  setValue(value: number): void;
+  setLightness(lightness: number): void;
+  getSaturationV(): number;
+  setSaturationV(saturationV: number): void;
   getValue(): number;
-  getGreyValue(): number;
-  invert(): this;
-  getLuminance(): number;
+  setValue(value: number): void;
   getContrastRatio(color2: Color): number;
+  getGreyValue(): number;
+  getLuminance(): number;
+  invert(): this;
+  parseCSSColor(input: string): void;
 }
-
-export type RGB = [number, number, number];
-export type RGBA = [number, number, number, number];
-export type HSL = [number, number, number];
-export type HSLA = [number, number, number, number];
-export type HSV = [number, number, number];
-export type HSVA = [number, number, number, number];
-export type HEX = string;
 
 export interface RGBInterface {
   r: number;
@@ -67,3 +59,11 @@ export interface HexInterface {
   set: (hex: HEX) => void;
   toCss: () => string;
 }
+
+export type RGB = [number, number, number];
+export type RGBA = [number, number, number, number];
+export type HSL = [number, number, number];
+export type HSLA = [number, number, number, number];
+export type HSV = [number, number, number];
+export type HSVA = [number, number, number, number];
+export type HEX = string;

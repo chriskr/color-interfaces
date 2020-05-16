@@ -16,14 +16,35 @@
 
 ### Interfaces
 
-```TypeScript
-export type RGB = [number, number, number];
-export type RGBA = [number, number, number, number];
-export type HSL = [number, number, number];
-export type HSLA = [number, number, number, number];
-export type HSV = [number, number, number];
-export type HSVA = [number, number, number, number];
-export type HEX = string;
+```TypeScriptexport
+export interface Color {
+  rgb: RGBInterface;
+  hsl: HSLInterface;
+  hsv: HSVInterface;
+  hex: HexInterface;
+  alpha: number;
+  getRed(): number;
+  setRed(red: number): void;
+  getGreen(): number;
+  setGreen(green: number): void;
+  getBlue(): number;
+  setBlue(blue: number): void;
+  getHue(): number;
+  setHue(hue: number): void;
+  getSaturation(): number;
+  setSaturation(saturation: number): void;
+  getLightness(): number;
+  setLightness(lightness: number): void;
+  getSaturationV(): number;
+  setSaturationV(saturationV: number): void;
+  getValue(): number;
+  setValue(value: number): void;
+  getContrastRatio(color2: Color): number;
+  getGreyValue(): number;
+  getLuminance(): number;
+  invert(): this;
+  parseCSSColor(input: string): void;
+}
 
 export interface RGBInterface {
   r: number;
@@ -58,4 +79,11 @@ export interface HexInterface {
   toCss: () => string;
 }
 
+export type RGB = [number, number, number];
+export type RGBA = [number, number, number, number];
+export type HSL = [number, number, number];
+export type HSLA = [number, number, number, number];
+export type HSV = [number, number, number];
+export type HSVA = [number, number, number, number];
+export type HEX = string;
 ```
