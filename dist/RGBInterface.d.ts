@@ -1,4 +1,4 @@
-import { Color, RGBInterface as RGBInterface_, RGB } from "./ColorInterface";
+import { Color, RGBInterface as RGBInterface_, RGB } from './ColorInterface';
 declare class RGBInterface implements RGBInterface_ {
     private color;
     constructor(color: Color);

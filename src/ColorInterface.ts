@@ -25,6 +25,7 @@ export interface Color {
   getLuminance(): number;
   invert(): this;
   parseCSSColor(input: string): void;
+  copy: () => Color;
 }
 
 export interface RGBInterface {

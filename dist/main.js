@@ -400,6 +400,14 @@ var Color = /** @class */ (function () {
         var l2 = color2.getLuminance();
         return l1 > l2 ? (l1 + 0.05) / (l2 + 0.05) : (l2 + 0.05) / (l1 + 0.05);
     };
+    Color.prototype.copy = function () {
+        var color = new Color();
+        color.setRed(this.red);
+        color.setGreen(this.green);
+        color.setBlue(this.blue);
+        color.alpha = this.alpha;
+        return color;
+    };
     Color.prototype.updateHslFromRgb = function () {
         var red = this.red / 255;
         var green = this.green / 255;

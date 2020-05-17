@@ -208,6 +208,15 @@ class Color implements Color_ {
     return l1 > l2 ? (l1 + 0.05) / (l2 + 0.05) : (l2 + 0.05) / (l1 + 0.05);
   }
 
+  copy() {
+    const color = new Color();
+    color.setRed(this.red);
+    color.setGreen(this.green);
+    color.setBlue(this.blue);
+    color.alpha = this.alpha;
+    return color;
+  }
+
   private updateHslFromRgb() {
     const red = this.red / 255;
     const green = this.green / 255;

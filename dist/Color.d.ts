@@ -55,6 +55,7 @@ declare class Color implements Color_ {
     invert(): this;
     getLuminance(): number;
     getContrastRatio(color2: Color): number;
+    copy(): Color;
     private updateHslFromRgb;
     private updateRgbFromHsl;
     private updateHsvFromHsl;
