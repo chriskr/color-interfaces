@@ -14,6 +14,10 @@
 < "#c80000"
 ```
 
+### Example
+
+[color converter tool](https://chriskr.github.io/color-tool/build/)
+
 ### Interfaces
 
 ```TypeScriptexport
