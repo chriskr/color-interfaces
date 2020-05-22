@@ -437,6 +437,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Color_1 = __importDefault(__webpack_require__(7));
+exports.default = Color_1.default;
 var RGBInterface_1 = __webpack_require__(1);
 Object.defineProperty(exports, "RGBInterface", { enumerable: true, get: function () { return RGBInterface_1.default; } });
 var HSLInterface_1 = __webpack_require__(2);
@@ -445,7 +446,6 @@ var HSVInterface_1 = __webpack_require__(4);
 Object.defineProperty(exports, "HSVInterface", { enumerable: true, get: function () { return HSVInterface_1.default; } });
 var HexInterface_1 = __webpack_require__(5);
 Object.defineProperty(exports, "HexInterface", { enumerable: true, get: function () { return HexInterface_1.default; } });
-exports.default = Color_1.default;
 
 
 /***/ }),
