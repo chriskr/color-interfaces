@@ -1,13 +1,6 @@
-import { Color, HSLInterface as HSLInterface_, HSL } from "./ColorInterface";
-declare class HSLInterface implements HSLInterface_ {
-    private color;
-    constructor(color: Color);
-    set h(h: number);
-    get h(): number;
-    set s(s: number);
-    get s(): number;
-    set l(l: number);
-    get l(): number;
+import { HSLInterface as HSLInterface_, HSL } from './ColorInterface';
+import BaseHSLInterface from './BaseHSLInterface';
+declare class HSLInterface extends BaseHSLInterface implements HSLInterface_ {
     get(): HSL;
     set(hsl: HSL): this;
     toCss(): string;

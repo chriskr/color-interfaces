@@ -2,8 +2,11 @@ export interface Color {
     rgb: RGBInterface;
     rgba: RGBAInterface;
     hsl: HSLInterface;
+    hsla: HSLAInterface;
     hsv: HSVInterface;
+    hsva: HSVAInterface;
     hex: HexInterface;
+    hexa: HexAInterface;
     alpha: number;
     getRed(): number;
     setRed(red: number): void;
@@ -54,6 +57,15 @@ export interface HSLInterface {
     set: (hsv: HSL) => HSLInterface;
     toCss: () => string;
 }
+export interface HSLAInterface {
+    h: number;
+    s: number;
+    l: number;
+    a: number;
+    get: () => HSLA;
+    set: (hsva: HSLA) => HSLAInterface;
+    toCss: () => string;
+}
 export interface HSVInterface {
     h: number;
     s: number;
@@ -62,9 +74,24 @@ export interface HSVInterface {
     set: (hsv: HSV) => HSVInterface;
     toCss: () => string;
 }
+export interface HSVAInterface {
+    h: number;
+    s: number;
+    v: number;
+    a: number;
+    get: () => HSVA;
+    set: (hsv: HSVA) => HSVAInterface;
+    toCss: () => string;
+}
 export interface HexInterface {
     get: () => HEX;
     set: (hex: HEX) => HexInterface;
+    toCss: () => string;
+}
+export interface HexAInterface {
+    a: number;
+    get: () => HEXA;
+    set: (hexa: HEXA) => HexAInterface;
     toCss: () => string;
 }
 export declare type RGB = [number, number, number];
@@ -74,3 +101,4 @@ export declare type HSLA = [number, number, number, number];
 export declare type HSV = [number, number, number];
 export declare type HSVA = [number, number, number, number];
 export declare type HEX = string;
+export declare type HEXA = string;

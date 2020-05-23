@@ -2,8 +2,11 @@ import { Color as Color_ } from './ColorInterface';
 import RGBInterface from './RGBInterface';
 import RGBAInterface from './RGBAInterface';
 import HSLInterface from './HSLInterface';
+import HSLAInterface from './HSLAInterface';
 import HSVInterface from './HSVInterface';
+import HSVAInterface from './HSVAInterface';
 import HexInterface from './HexInterface';
+import HexAInterface from './HexAInterface';
 import { ColorType } from './consts';
 /**
  * @constructor
@@ -27,15 +30,21 @@ declare class Color implements Color_ {
     private _rgb;
     private _rgba;
     private _hsl;
+    private _hsla;
     private _hsv;
+    private _hsva;
     private _hex;
+    private _hexa;
     constructor(value?: number[] | string, type?: ColorType);
     parseCSSColor(input: string): void;
     get rgb(): RGBInterface;
     get rgba(): RGBAInterface;
     get hsl(): HSLInterface;
+    get hsla(): HSLAInterface;
     get hsv(): HSVInterface;
+    get hsva(): HSVAInterface;
     get hex(): HexInterface;
+    get hexa(): HexAInterface;
     set alpha(alpha: number);
     get alpha(): number;
     setRed(red: number): void;

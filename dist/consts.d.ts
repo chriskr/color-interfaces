@@ -13,3 +13,5 @@ export declare const WHITE: number[];
 export declare const GREY: number[];
 export declare const RE_HEX_6: RegExp;
 export declare const RE_HEX_3: RegExp;
+export declare const RE_HEX_4: RegExp;
+export declare const RE_HEX_8: RegExp;

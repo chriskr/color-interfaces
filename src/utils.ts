@@ -54,3 +54,8 @@ export const getTestSpan = () => {
 };
 
 let testSpan: HTMLSpanElement | null = null;
+
+export const toTwoHex = (n: number) => {
+  const hex = n.toString(16);
+  return hex.length === 1 ? `0${hex}` : hex;
+};

@@ -1,35 +1,7 @@
-import { Color, HSVInterface as HSVInterface_, HSV } from "./ColorInterface";
+import { HSVInterface as HSVInterface_, HSV } from './ColorInterface';
+import BaseHSVInterface from './BaseHSVInterface';
 
-class HSVInterface implements HSVInterface_ {
-  private color: Color;
-  constructor(color: Color) {
-    this.color = color;
-  }
-
-  set h(h) {
-    this.color.setHue(h);
-  }
-
-  get h() {
-    return this.color.getHue();
-  }
-
-  set s(s) {
-    this.color.setSaturationV(s);
-  }
-
-  get s() {
-    return this.color.getSaturationV();
-  }
-
-  set v(v) {
-    this.color.setValue(v);
-  }
-
-  get v() {
-    return this.color.getValue();
-  }
-
+class HSVInterface extends BaseHSVInterface implements HSVInterface_ {
   get() {
     return [this.h, this.s, this.v] as HSV;
   }

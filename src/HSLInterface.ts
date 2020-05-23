@@ -1,36 +1,8 @@
-import { Color, HSLInterface as HSLInterface_, HSL } from "./ColorInterface";
-import { toPercent } from "./utils";
+import { Color, HSLInterface as HSLInterface_, HSL } from './ColorInterface';
+import { toPercent } from './utils';
+import BaseHSLInterface from './BaseHSLInterface';
 
-class HSLInterface implements HSLInterface_ {
-  private color: Color;
-  constructor(color: Color) {
-    this.color = color;
-  }
-
-  set h(h) {
-    this.color.setHue(h);
-  }
-
-  get h() {
-    return this.color.getHue();
-  }
-
-  set s(s) {
-    this.color.setSaturation(s);
-  }
-
-  get s() {
-    return this.color.getSaturation();
-  }
-
-  set l(l) {
-    this.color.setLightness(l);
-  }
-
-  get l() {
-    return this.color.getLightness();
-  }
-
+class HSLInterface extends BaseHSLInterface implements HSLInterface_ {
   get() {
     return [this.h, this.s, this.l] as HSL;
   }

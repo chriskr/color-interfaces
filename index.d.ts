@@ -1,9 +1,12 @@
-import Color from './dist/index';
+import Color from './dist/Color';
 export default Color;
 export { default as RGBInterface } from './dist/RGBInterface';
 export { default as RGBAInterface } from './dist/RGBAInterface';
 export { default as HSLInterface } from './dist/HSLInterface';
+export { default as HSLAInterface } from './dist/HSLAInterface';
 export { default as HSVInterface } from './dist/HSVInterface';
+export { default as HSVAInterface } from './dist/HSVAInterface';
 export { default as HexInterface } from './dist/HexInterface';
+export { default as HexAInterface } from './dist/HexAInterface';
 export { RGB, RGBA, HSL, HSLA, HSV, HSVA, HEX } from './dist/ColorInterface';
 export { ColorType } from './dist/consts';

@@ -5,3 +5,4 @@ export declare const toPercent: (value: number) => string;
 export declare const hueToRgb: (hue: number) => number[];
 export declare const parseInt10: (i: string) => number;
 export declare const getTestSpan: () => HTMLSpanElement;
+export declare const toTwoHex: (n: number) => string;

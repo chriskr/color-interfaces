@@ -2,8 +2,11 @@ import { Color as Color_, RGB, HSV, HSL } from './ColorInterface';
 import RGBInterface from './RGBInterface';
 import RGBAInterface from './RGBAInterface';
 import HSLInterface from './HSLInterface';
+import HSLAInterface from './HSLAInterface';
 import HSVInterface from './HSVInterface';
+import HSVAInterface from './HSVAInterface';
 import HexInterface from './HexInterface';
+import HexAInterface from './HexAInterface';
 import { ColorType, BLACK, WHITE, GREY } from './consts';
 import {
   clamp,
@@ -36,8 +39,11 @@ class Color implements Color_ {
   private _rgb: RGBInterface | null = null;
   private _rgba: RGBAInterface | null = null;
   private _hsl: HSLInterface | null = null;
+  private _hsla: HSLAInterface | null = null;
   private _hsv: HSVInterface | null = null;
+  private _hsva: HSVAInterface | null = null;
   private _hex: HexInterface | null = null;
+  private _hexa: HexAInterface | null = null;
 
   constructor(value?: number[] | string, type?: ColorType) {
     if (typeof value === 'string') {
@@ -91,6 +97,13 @@ class Color implements Color_ {
     return this._hsl;
   }
 
+  get hsla(): HSLAInterface {
+    if (!this._hsla) {
+      this._hsla = new HSLAInterface(this);
+    }
+    return this._hsla;
+  }
+
   get hsv(): HSVInterface {
     if (!this._hsv) {
       this._hsv = new HSVInterface(this);
@@ -98,11 +111,25 @@ class Color implements Color_ {
     return this._hsv;
   }
 
+  get hsva(): HSVAInterface {
+    if (!this._hsva) {
+      this._hsva = new HSVAInterface(this);
+    }
+    return this._hsva;
+  }
+
   get hex(): HexInterface {
     if (!this._hex) {
       this._hex = new HexInterface(this);
     }
     return this._hex;
+  }
+
+  get hexa(): HexAInterface {
+    if (!this._hexa) {
+      this._hexa = new HexAInterface(this);
+    }
+    return this._hexa;
   }
 
   set alpha(alpha) {
