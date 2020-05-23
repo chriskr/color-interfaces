@@ -1,5 +1,5 @@
-import { Color, HSLInterface as HSLInterface_, HSL } from './ColorInterface';
-import { toPercent } from './utils';
+import { Color, HSLInterface as HSLInterface_, HSL } from "./ColorInterface";
+import { toPercent } from "./utils";
 
 class HSLInterface implements HSLInterface_ {
   private color: Color;
@@ -37,6 +37,7 @@ class HSLInterface implements HSLInterface_ {
 
   set(hsl: HSL) {
     [this.h, this.s, this.l] = hsl;
+    return this;
   }
 
   toCss() {

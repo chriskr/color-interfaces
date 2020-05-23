@@ -1,15 +1,8 @@
-import { Color, RGBInterface as RGBInterface_, RGB } from './ColorInterface';
-declare class RGBInterface implements RGBInterface_ {
-    private color;
-    constructor(color: Color);
-    set r(r: number);
-    get r(): number;
-    set g(g: number);
-    get g(): number;
-    set b(b: number);
-    get b(): number;
+import { RGBInterface as RGBInterface_, RGB } from './ColorInterface';
+import BaseRGBInterface from './BaseRGBInterface';
+declare class RGBInterface extends BaseRGBInterface implements RGBInterface_ {
     get(): RGB;
-    set(rgb: RGB): void;
+    set(rgb: RGB): this;
     toCss(): string;
 }
 export default RGBInterface;

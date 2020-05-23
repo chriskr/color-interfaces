@@ -1,5 +1,6 @@
 import { Color as Color_, RGB, HSV, HSL } from './ColorInterface';
 import RGBInterface from './RGBInterface';
+import RGBAInterface from './RGBAInterface';
 import HSLInterface from './HSLInterface';
 import HSVInterface from './HSVInterface';
 import HexInterface from './HexInterface';
@@ -33,6 +34,7 @@ class Color implements Color_ {
   private saturationV: number = 0;
   private value: number = 0;
   private _rgb: RGBInterface | null = null;
+  private _rgba: RGBAInterface | null = null;
   private _hsl: HSLInterface | null = null;
   private _hsv: HSVInterface | null = null;
   private _hex: HexInterface | null = null;
@@ -75,6 +77,13 @@ class Color implements Color_ {
     return this._rgb;
   }
 
+  get rgba(): RGBAInterface {
+    if (this._rgba === null) {
+      this._rgba = new RGBAInterface(this);
+    }
+    return this._rgba;
+  }
+
   get hsl(): HSLInterface {
     if (!this._hsl) {
       this._hsl = new HSLInterface(this);
@@ -101,7 +110,7 @@ class Color implements Color_ {
   }
 
   get alpha() {
-    return Math.round(clamp(this._alpha, 0, 1));
+    return clamp(this._alpha, 0, 1);
   }
 
   setRed(red: number) {
@@ -215,6 +224,11 @@ class Color implements Color_ {
     color.setBlue(this.blue);
     color.alpha = this.alpha;
     return color;
+  }
+
+  mixWithColor(color: Color, percent: number) {
+    this.rgb.set(mixRgbColors(this.rgb.get(), color.rgb.get(), percent));
+    return this;
   }
 
   private updateHslFromRgb() {

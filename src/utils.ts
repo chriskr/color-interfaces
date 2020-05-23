@@ -5,11 +5,12 @@ export const clamp = (val: number, min: number, max: number) => {
   return Math.min(Math.max(val, min), max);
 };
 
-export const mixRgbColors = (rgb1: RGB, rgb2: RGB, m: number) => [
-  rgb1[0] + m * (rgb2[0] - rgb1[0]),
-  rgb1[1] + m * (rgb2[1] - rgb1[1]),
-  rgb1[2] + m * (rgb2[2] - rgb1[2]),
-];
+export const mixRgbColors = (rgb1: RGB, rgb2: RGB, m: number) =>
+  [
+    rgb1[0] + m * (rgb2[0] - rgb1[0]),
+    rgb1[1] + m * (rgb2[1] - rgb1[1]),
+    rgb1[2] + m * (rgb2[2] - rgb1[2]),
+  ] as RGB;
 
 export const toPercent = (value: number) => {
   return `${Math.round(value * 100)}%`;

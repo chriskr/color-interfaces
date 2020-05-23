@@ -1,4 +1,4 @@
-import { Color, HSVInterface as HSVInterface_, HSV } from './ColorInterface';
+import { Color, HSVInterface as HSVInterface_, HSV } from "./ColorInterface";
 declare class HSVInterface implements HSVInterface_ {
     private color;
     constructor(color: Color);
@@ -9,7 +9,7 @@ declare class HSVInterface implements HSVInterface_ {
     set v(v: number);
     get v(): number;
     get(): HSV;
-    set(hsv: HSV): void;
+    set(hsv: HSV): this;
     toCss(): string;
 }
 export default HSVInterface;

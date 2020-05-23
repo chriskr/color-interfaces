@@ -1,5 +1,6 @@
 export interface Color {
   rgb: RGBInterface;
+  rgba: RGBAInterface;
   hsl: HSLInterface;
   hsv: HSVInterface;
   hex: HexInterface;
@@ -26,6 +27,7 @@ export interface Color {
   invert(): this;
   parseCSSColor(input: string): void;
   copy: () => Color;
+  mixWithColor(color: Color, percent: number): Color;
 }
 
 export interface RGBInterface {
@@ -33,7 +35,17 @@ export interface RGBInterface {
   g: number;
   b: number;
   get: () => RGB;
-  set: (rgb: RGB) => void;
+  set: (rgb: RGB) => RGBInterface;
+  toCss: () => string;
+}
+
+export interface RGBAInterface {
+  r: number;
+  g: number;
+  b: number;
+  a: number;
+  get: () => RGBA;
+  set: (rgba: RGBA) => RGBAInterface;
   toCss: () => string;
 }
 
@@ -42,7 +54,7 @@ export interface HSLInterface {
   s: number;
   l: number;
   get: () => HSL;
-  set: (hsv: HSL) => void;
+  set: (hsv: HSL) => HSLInterface;
   toCss: () => string;
 }
 
@@ -51,13 +63,13 @@ export interface HSVInterface {
   s: number;
   v: number;
   get: () => HSV;
-  set: (hsv: HSV) => void;
+  set: (hsv: HSV) => HSVInterface;
   toCss: () => string;
 }
 
 export interface HexInterface {
   get: () => HEX;
-  set: (hex: HEX) => void;
+  set: (hex: HEX) => HexInterface;
   toCss: () => string;
 }
 

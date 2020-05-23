@@ -1,5 +1,6 @@
 import { Color as Color_ } from './ColorInterface';
 import RGBInterface from './RGBInterface';
+import RGBAInterface from './RGBAInterface';
 import HSLInterface from './HSLInterface';
 import HSVInterface from './HSVInterface';
 import HexInterface from './HexInterface';
@@ -24,12 +25,14 @@ declare class Color implements Color_ {
     private saturationV;
     private value;
     private _rgb;
+    private _rgba;
     private _hsl;
     private _hsv;
     private _hex;
     constructor(value?: number[] | string, type?: ColorType);
     parseCSSColor(input: string): void;
     get rgb(): RGBInterface;
+    get rgba(): RGBAInterface;
     get hsl(): HSLInterface;
     get hsv(): HSVInterface;
     get hex(): HexInterface;
@@ -56,6 +59,7 @@ declare class Color implements Color_ {
     getLuminance(): number;
     getContrastRatio(color2: Color): number;
     copy(): Color;
+    mixWithColor(color: Color, percent: number): this;
     private updateHslFromRgb;
     private updateRgbFromHsl;
     private updateHsvFromHsl;

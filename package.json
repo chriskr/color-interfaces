@@ -1,6 +1,6 @@
 {
   "name": "color-interfaces",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "interfaces for color spaces",
   "repository": "https://github.com/chriskr/color-interfaces",
   "main": "index.js",
