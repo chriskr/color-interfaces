@@ -10,3 +10,4 @@ export { default as HexInterface } from './HexInterface';
 export { default as HexAInterface } from './HexAInterface';
 export { RGB, RGBA, HSL, HSLA, HSV, HSVA, HEX } from './ColorInterface';
 export { ColorType } from './consts';
+export { parseCSSColor } from './utils';

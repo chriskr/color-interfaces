@@ -8,13 +8,7 @@ import HSVAInterface from './HSVAInterface';
 import HexInterface from './HexInterface';
 import HexAInterface from './HexAInterface';
 import { ColorType, BLACK, WHITE, GREY } from './consts';
-import {
-  clamp,
-  mixRgbColors,
-  hueToRgb,
-  parseInt10,
-  getTestSpan,
-} from './utils';
+import { clamp, mixRgbColors, hueToRgb, parseCSSColor } from './utils';
 
 /**
  * @constructor
@@ -22,11 +16,14 @@ import {
  *
  * @class
  * Represent a color. Allows for setting and getting color components based
- * on RGB, HSV and HSL color spaces.
+ * on RGB, RGBA, HSV, HSVA, HSL and HSLA color spaces.
  * See also http://en.wikipedia.org/Color_space
  */
 
 class Color implements Color_ {
+  static parseCSSColor = parseCSSColor;
+  static ColorType = ColorType;
+
   private _alpha: number = 1;
   private red: number = 0;
   private green: number = 0;
@@ -66,14 +63,7 @@ class Color implements Color_ {
   }
 
   parseCSSColor(input: string) {
-    const span = getTestSpan();
-    span.style.setProperty('color', input, 'important');
-    const raw = window.getComputedStyle(span).color;
-    const rawArray: string[] = raw.split(/rgba?\(|,s*|\)$/).filter(Boolean);
-    if (rawArray.length === 4) {
-      this.alpha = parseFloat(rawArray.pop()!);
-    }
-    this.rgb.set(rawArray.map(parseInt10) as RGB);
+    this.rgba.set(parseCSSColor(input).rgba.get());
   }
 
   get rgb(): RGBInterface {

@@ -18,6 +18,7 @@ import { ColorType } from './consts';
  * See also http://en.wikipedia.org/Color_space
  */
 declare class Color implements Color_ {
+    static parseCSSColor: (input: string) => Color;
     private _alpha;
     private red;
     private green;

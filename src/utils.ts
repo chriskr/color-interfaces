@@ -1,5 +1,90 @@
+import {
+  colorKeywords,
+  ColorType,
+  RE_HEX_3,
+  RE_HEX_4,
+  RE_HEX_6,
+  RE_HEX_8,
+  RE_HSL,
+  RE_HSLA,
+  RE_RGB,
+  RE_RGBA,
+} from './consts';
 import { RGB } from './ColorInterface';
-import { DEFAULT_COLOR } from './consts';
+import Color from './Color';
+
+type ParseFromMatch = (match: RegExpMatchArray) => Color;
+
+const hex6ToColor: ParseFromMatch = (match) => {
+  const rgb = match.slice(1).map((hex) => Number.parseInt(hex, 16));
+  return new Color(rgb, ColorType.RGB);
+};
+
+const hex3ToColor: ParseFromMatch = (match) => {
+  const rgb = match.slice(1).map((hex) => Number.parseInt(hex.repeat(2), 16));
+  return new Color(rgb, ColorType.RGB);
+};
+
+const hex8ToColor: ParseFromMatch = (match) => {
+  const alpha = Number.parseInt(match.pop()!, 16);
+  const color = hex6ToColor(match);
+  color.alpha = alpha === 0 ? alpha : alpha / 255;
+  return color;
+};
+
+const hex4ToColor: ParseFromMatch = (match) => {
+  const alpha = Number.parseInt(match.pop()!.repeat(2), 16);
+  const color = hex3ToColor(match);
+  color.alpha = alpha === 0 ? alpha : alpha / 255;
+  return color;
+};
+
+const rgbToColor: ParseFromMatch = (match) => {
+  const rgb = match.slice(1).map((digit) => Number.parseInt(digit, 10));
+  return new Color(rgb, ColorType.RGB);
+};
+
+const rgbaToColor: ParseFromMatch = (match) => {
+  const alpha = Number.parseFloat(match.pop()!);
+  const color = rgbToColor(match);
+  color.alpha = alpha;
+  return color;
+};
+
+const hslToColor: ParseFromMatch = (match) => {
+  const [h, s, l] = match.slice(1).map((digit) => Number.parseInt(digit, 10));
+  return new Color([h % 360, s / 100, l / 100], ColorType.HSL);
+};
+
+const hslaToColor: ParseFromMatch = (match) => {
+  const alpha = Number.parseFloat(match.pop()!);
+  const color = hslToColor(match);
+  color.alpha = alpha;
+  return color;
+};
+
+export const cssParserTuples: [RegExp, ParseFromMatch][] = [
+  [RE_HEX_6, hex6ToColor],
+  [RE_HEX_3, hex3ToColor],
+  [RE_HEX_8, hex8ToColor],
+  [RE_HEX_4, hex4ToColor],
+  [RE_RGB, rgbToColor],
+  [RE_RGBA, rgbaToColor],
+  [RE_HSL, hslToColor],
+  [RE_HSLA, hslaToColor],
+];
+
+export const parseCSSColor = (input: string) => {
+  let tuple = cssParserTuples.find(([re]) => re.test(input));
+  if (tuple) {
+    const [re, parser] = tuple;
+    return parser(input.match(re)!);
+  }
+  if (colorKeywords.has(input.trim())) {
+    return new Color(colorKeywords.get(input.trim()), ColorType.RGB);
+  }
+  return new Color([0, 0, 0]);
+};
 
 export const clamp = (val: number, min: number, max: number) => {
   return Math.min(Math.max(val, min), max);
@@ -41,19 +126,6 @@ export const hueToRgb = (hue: number) => {
 export const parseInt10 = (i: string) => {
   return Number.parseInt(i, 10);
 };
-
-export const getTestSpan = () => {
-  let span = testSpan;
-  if (!span || !span.parentNode) {
-    span = testSpan = document.createElement('span');
-    span.style.display = 'none';
-    document.body.appendChild(span);
-  }
-  span.style.setProperty('color', DEFAULT_COLOR, 'important');
-  return span;
-};
-
-let testSpan: HTMLSpanElement | null = null;
 
 export const toTwoHex = (n: number) => {
   const hex = n.toString(16);

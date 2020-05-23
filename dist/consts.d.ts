@@ -1,3 +1,4 @@
+import { RGB } from './ColorInterface';
 export declare enum ColorType {
     KEYWORD = 1,
     HEX = 2,
@@ -13,5 +14,10 @@ export declare const WHITE: number[];
 export declare const GREY: number[];
 export declare const RE_HEX_6: RegExp;
 export declare const RE_HEX_3: RegExp;
-export declare const RE_HEX_4: RegExp;
 export declare const RE_HEX_8: RegExp;
+export declare const RE_HEX_4: RegExp;
+export declare const RE_RGB: RegExp;
+export declare const RE_RGBA: RegExp;
+export declare const RE_HSL: RegExp;
+export declare const RE_HSLA: RegExp;
+export declare const colorKeywords: Map<string, RGB>;
