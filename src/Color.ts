@@ -22,7 +22,9 @@ import { clamp, mixRgbColors, hueToRgb, parseCSSColor } from './utils';
 
 class Color implements Color_ {
   static parseCSSColor = parseCSSColor;
-  static ColorType = ColorType;
+  static get ColorType() {
+    return ColorType;
+  }
 
   private _alpha: number = 1;
   private red: number = 0;

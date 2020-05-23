@@ -25,8 +25,11 @@ export interface Color {
   rgb: RGBInterface;
   rgba: RGBAInterface;
   hsl: HSLInterface;
+  hsla: HSLAInterface;
   hsv: HSVInterface;
+  hsva: HSVAInterface;
   hex: HexInterface;
+  hexa: HexAInterface;
   alpha: number;
   getRed(): number;
   setRed(red: number): void;
@@ -81,6 +84,16 @@ export interface HSLInterface {
   toCss: () => string;
 }
 
+export interface HSLAInterface {
+  h: number;
+  s: number;
+  l: number;
+  a: number;
+  get: () => HSLA;
+  set: (hsva: HSLA) => HSLAInterface;
+  toCss: () => string;
+}
+
 export interface HSVInterface {
   h: number;
   s: number;
@@ -90,9 +103,26 @@ export interface HSVInterface {
   toCss: () => string;
 }
 
+export interface HSVAInterface {
+  h: number;
+  s: number;
+  v: number;
+  a: number;
+  get: () => HSVA;
+  set: (hsv: HSVA) => HSVAInterface;
+  toCss: () => string;
+}
+
 export interface HexInterface {
   get: () => HEX;
   set: (hex: HEX) => HexInterface;
+  toCss: () => string;
+}
+
+export interface HexAInterface {
+  a: number;
+  get: () => HEXA;
+  set: (hexa: HEXA) => HexAInterface;
   toCss: () => string;
 }
 
@@ -103,5 +133,7 @@ export type HSLA = [number, number, number, number];
 export type HSV = [number, number, number];
 export type HSVA = [number, number, number, number];
 export type HEX = string;
+export type HEXA = string;
+
 
 ```

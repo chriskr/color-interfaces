@@ -14,11 +14,12 @@ import { ColorType } from './consts';
  *
  * @class
  * Represent a color. Allows for setting and getting color components based
- * on RGB, HSV and HSL color spaces.
+ * on RGB, RGBA, HSV, HSVA, HSL and HSLA color spaces.
  * See also http://en.wikipedia.org/Color_space
  */
 declare class Color implements Color_ {
     static parseCSSColor: (input: string) => Color;
+    static get ColorType(): typeof ColorType;
     private _alpha;
     private red;
     private green;

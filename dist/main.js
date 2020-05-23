@@ -457,7 +457,7 @@ var utils_1 = __webpack_require__(0);
  *
  * @class
  * Represent a color. Allows for setting and getting color components based
- * on RGB, HSV and HSL color spaces.
+ * on RGB, RGBA, HSV, HSVA, HSL and HSLA color spaces.
  * See also http://en.wikipedia.org/Color_space
  */
 var Color = /** @class */ (function () {
@@ -497,6 +497,13 @@ var Color = /** @class */ (function () {
             }
         }
     }
+    Object.defineProperty(Color, "ColorType", {
+        get: function () {
+            return consts_1.ColorType;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Color.prototype.parseCSSColor = function (input) {
         this.rgba.set(utils_1.parseCSSColor(input).rgba.get());
     };
