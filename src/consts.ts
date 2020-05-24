@@ -17,6 +17,7 @@ export enum ColorType {
   HSL,
   HSLA,
   HSV,
+  HSVA,
 }
 
 export const DEFAULT_COLOR = 'black';

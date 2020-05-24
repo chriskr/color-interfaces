@@ -10,31 +10,35 @@ import {
   RE_RGB,
   RE_RGBA,
 } from './consts';
-import { RGB } from './ColorInterface';
+import { Color as Color_, RGB } from './ColorInterface';
 import Color from './Color';
 
-type ParseFromMatch = (match: RegExpMatchArray) => Color;
+type ParseFromMatch = (match: RegExpMatchArray, color?: Color) => Color;
 
-const hex6ToColor: ParseFromMatch = (match) => {
-  const rgb = match.slice(1).map((hex) => Number.parseInt(hex, 16));
-  return new Color(rgb, ColorType.RGB);
+const hex6ToColor: ParseFromMatch = (match, color = new Color()) => {
+  const rgb = match.slice(1).map((hex) => Number.parseInt(hex, 16)) as RGB;
+  color.rgb.set(rgb);
+  return color;
 };
 
-const hex3ToColor: ParseFromMatch = (match) => {
-  const rgb = match.slice(1).map((hex) => Number.parseInt(hex.repeat(2), 16));
-  return new Color(rgb, ColorType.RGB);
+const hex3ToColor: ParseFromMatch = (match, color = new Color()) => {
+  const rgb = match
+    .slice(1)
+    .map((hex) => Number.parseInt(hex.repeat(2), 16)) as RGB;
+  color.rgb.set(rgb);
+  return color;
 };
 
-const hex8ToColor: ParseFromMatch = (match) => {
+const hex8ToColor: ParseFromMatch = (match, color = new Color()) => {
   const alpha = Number.parseInt(match.pop()!, 16);
-  const color = hex6ToColor(match);
+  hex6ToColor(match, color);
   color.alpha = alpha === 0 ? alpha : alpha / 255;
   return color;
 };
 
-const hex4ToColor: ParseFromMatch = (match) => {
+const hex4ToColor: ParseFromMatch = (match, color = new Color()) => {
   const alpha = Number.parseInt(match.pop()!.repeat(2), 16);
-  const color = hex3ToColor(match);
+  hex3ToColor(match, color);
   color.alpha = alpha === 0 ? alpha : alpha / 255;
   return color;
 };
@@ -63,7 +67,7 @@ const hslaToColor: ParseFromMatch = (match) => {
   return color;
 };
 
-export const cssParserTuples: [RegExp, ParseFromMatch][] = [
+const cssParserTuples: [RegExp, ParseFromMatch][] = [
   [RE_HEX_6, hex6ToColor],
   [RE_HEX_3, hex3ToColor],
   [RE_HEX_8, hex8ToColor],
@@ -73,6 +77,8 @@ export const cssParserTuples: [RegExp, ParseFromMatch][] = [
   [RE_HSL, hslToColor],
   [RE_HSLA, hslaToColor],
 ];
+
+export const cssParsers = new Map(cssParserTuples);
 
 export const parseCSSColor = (input: string) => {
   let tuple = cssParserTuples.find(([re]) => re.test(input));

@@ -1,4 +1,4 @@
-import { Color as Color_, RGB, HSV, HSL } from './ColorInterface';
+import { Color as Color_, RGB, HSV, HSL, HSVA, HSLA } from './ColorInterface';
 import RGBInterface from './RGBInterface';
 import RGBAInterface from './RGBAInterface';
 import HSLInterface from './HSLInterface';
@@ -57,8 +57,14 @@ class Color implements Color_ {
         case ColorType.HSL:
           this.hsl.set(value as HSV);
           break;
+        case ColorType.HSLA:
+          this.hsla.set(value as HSVA);
+          break;
         case ColorType.HSV:
           this.hsv.set(value as HSL);
+          break;
+        case ColorType.HSVA:
+          this.hsva.set(value as HSLA);
           break;
       }
     }

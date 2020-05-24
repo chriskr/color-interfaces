@@ -1,7 +1,7 @@
 import { RGB } from './ColorInterface';
 import Color from './Color';
-declare type ParseFromMatch = (match: RegExpMatchArray) => Color;
-export declare const cssParserTuples: [RegExp, ParseFromMatch][];
+declare type ParseFromMatch = (match: RegExpMatchArray, color?: Color) => Color;
+export declare const cssParsers: Map<RegExp, ParseFromMatch>;
 export declare const parseCSSColor: (input: string) => Color;
 export declare const clamp: (val: number, min: number, max: number) => number;
 export declare const mixRgbColors: (rgb1: RGB, rgb2: RGB, m: number) => RGB;

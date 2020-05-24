@@ -1,6 +1,10 @@
-import { Color, HexAInterface as HexAInterface_, HEXA } from './ColorInterface';
+import { HexAInterface as HexAInterface_, HEXA } from './ColorInterface';
 import { RE_HEX_4, RE_HEX_8 } from './consts';
-import { toTwoHex } from './utils';
+import { toTwoHex, cssParsers } from './utils';
+import Color from './Color';
+
+const getRe = (input: string) =>
+  [RE_HEX_8, RE_HEX_4].find((re) => re.test(input));
 
 class HexAInterface implements HexAInterface_ {
   private color: Color;
@@ -17,17 +21,11 @@ class HexAInterface implements HexAInterface_ {
   }
 
   set(hexa: HEXA) {
-    if (!(RE_HEX_4.test(hexa) || RE_HEX_8.test(hexa))) {
-      throw Error('Not valid hexa color');
+    const re = getRe(hexa);
+    if (!re) {
+      throw new Error('Not valid hex color');
     }
-    if (RE_HEX_4.test(hexa)) {
-      hexa = Array.from(hexa)
-        .flatMap((h) => [h, h])
-        .join('');
-    }
-    const [r, g, b, a] = hexa.match(/../g)!.map((h) => Number.parseInt(h, 16));
-    this.color.rgb.set([r, g, b]);
-    this.a = a === 0 ? 0 : a / 255;
+    cssParsers.get(re)!(hexa.match(re)!, this.color);
     return this;
   }
 

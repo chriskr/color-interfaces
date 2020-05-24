@@ -111,26 +111,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.toTwoHex = exports.parseInt10 = exports.hueToRgb = exports.toPercent = exports.mixRgbColors = exports.clamp = exports.parseCSSColor = exports.cssParserTuples = void 0;
+exports.toTwoHex = exports.parseInt10 = exports.hueToRgb = exports.toPercent = exports.mixRgbColors = exports.clamp = exports.parseCSSColor = exports.cssParsers = void 0;
 var consts_1 = __webpack_require__(1);
 var Color_1 = __importDefault(__webpack_require__(2));
-var hex6ToColor = function (match) {
+var hex6ToColor = function (match, color) {
+    if (color === void 0) { color = new Color_1.default(); }
     var rgb = match.slice(1).map(function (hex) { return Number.parseInt(hex, 16); });
-    return new Color_1.default(rgb, consts_1.ColorType.RGB);
+    color.rgb.set(rgb);
+    return color;
 };
-var hex3ToColor = function (match) {
-    var rgb = match.slice(1).map(function (hex) { return Number.parseInt(hex.repeat(2), 16); });
-    return new Color_1.default(rgb, consts_1.ColorType.RGB);
+var hex3ToColor = function (match, color) {
+    if (color === void 0) { color = new Color_1.default(); }
+    var rgb = match
+        .slice(1)
+        .map(function (hex) { return Number.parseInt(hex.repeat(2), 16); });
+    color.rgb.set(rgb);
+    return color;
 };
-var hex8ToColor = function (match) {
+var hex8ToColor = function (match, color) {
+    if (color === void 0) { color = new Color_1.default(); }
     var alpha = Number.parseInt(match.pop(), 16);
-    var color = hex6ToColor(match);
+    hex6ToColor(match, color);
     color.alpha = alpha === 0 ? alpha : alpha / 255;
     return color;
 };
-var hex4ToColor = function (match) {
+var hex4ToColor = function (match, color) {
+    if (color === void 0) { color = new Color_1.default(); }
     var alpha = Number.parseInt(match.pop().repeat(2), 16);
-    var color = hex3ToColor(match);
+    hex3ToColor(match, color);
     color.alpha = alpha === 0 ? alpha : alpha / 255;
     return color;
 };
@@ -154,7 +162,7 @@ var hslaToColor = function (match) {
     color.alpha = alpha;
     return color;
 };
-exports.cssParserTuples = [
+var cssParserTuples = [
     [consts_1.RE_HEX_6, hex6ToColor],
     [consts_1.RE_HEX_3, hex3ToColor],
     [consts_1.RE_HEX_8, hex8ToColor],
@@ -164,8 +172,9 @@ exports.cssParserTuples = [
     [consts_1.RE_HSL, hslToColor],
     [consts_1.RE_HSLA, hslaToColor],
 ];
+exports.cssParsers = new Map(cssParserTuples);
 exports.parseCSSColor = function (input) {
-    var tuple = exports.cssParserTuples.find(function (_a) {
+    var tuple = cssParserTuples.find(function (_a) {
         var _b = __read(_a, 1), re = _b[0];
         return re.test(input);
     });
@@ -1302,14 +1311,15 @@ var HexInterface = /** @class */ (function () {
         this.color = color;
     }
     HexInterface.prototype.set = function (hex) {
-        if (!(consts_1.RE_HEX_3.test(hex) || consts_1.RE_HEX_6.test(hex))) {
+        var re = consts_1.RE_HEX_3.test(hex)
+            ? consts_1.RE_HEX_3
+            : consts_1.RE_HEX_6.test(hex)
+                ? consts_1.RE_HEX_6
+                : null;
+        if (!re) {
             throw Error('Not valid hex color');
         }
-        if (consts_1.RE_HEX_3.test(hex)) {
-            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-        }
-        var temp = Number.parseInt(hex, 16);
-        this.color.rgb.set([temp >> 16, (temp >> 8) & 0xff, temp & 0xff]);
+        utils_1.cssParsers.get(re)(hex.match(re), this.color);
         return this;
     };
     HexInterface.prototype.get = function () {
