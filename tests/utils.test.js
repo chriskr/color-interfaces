@@ -1,4 +1,4 @@
-import Color from '../dist/main';
+import Color from '../src/Color';
 
 test('parse css colors', () => {
   [

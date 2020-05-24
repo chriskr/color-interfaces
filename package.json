@@ -23,14 +23,16 @@
   "scripts": {
     "watch": "cross-env NODE_ENV=development webpack -w --mode development --display-error-details",
     "build": "cross-env NODE_ENV=production webpack --mode production",
-    "test": "jest --coverage"
+    "test": "jest --config jest.config.js"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.6.3",
     "@babel/preset-typescript": "^7.6.0",
+    "babel-jest": "^26.0.1",
     "babel-loader": "^8.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "cross-env": "^7.0.2",
     "jest": "^26.0.1",
     "ts-loader": "^7.0.4",
