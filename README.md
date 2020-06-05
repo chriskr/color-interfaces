@@ -1,6 +1,6 @@
 # color-interfaces
 
-[![Coverage Status](https://img.shields.io/codecov/c/github/chriskr/color-interfaces/master.svg)](https://codecov.io/gh/chriskr/color-interfaces)
+[![Coverage Status](https://coveralls.io/repos/github/chriskr/color-interfaces/badge.svg?branch=master)](https://coveralls.io/github/chriskr/color-interfaces)
 
 ### Basic Usage
 
