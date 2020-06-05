@@ -2,7 +2,7 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/chriskr/color-interfaces/badge.svg?branch=master)](https://coveralls.io/github/chriskr/color-interfaces)
 [![Install Size](https://packagephobia.now.sh/badge?p=color-interfaces)](https://packagephobia.now.sh/result?p=color-interfaces)
-[![MIT License][license-image]][license-url]
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/chriskr/color-interfaces/blob/master/LICENSE)
 
 ### Basic Usage
 
