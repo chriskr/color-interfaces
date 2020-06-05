@@ -1,6 +1,6 @@
 {
   "name": "color-interfaces",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "interfaces for color spaces",
   "repository": "https://github.com/chriskr/color-interfaces",
   "main": "dist/index.js",
@@ -31,7 +31,7 @@
     "format": "prettier --write \"src/**/*.ts\" ",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build --scripts-prepend-node-path",
-    "prepublishOnly": "npm test && npm run lint --scripts-prepend-node-path",
+    "prepublishOnly": "npm test --scripts-prepend-node-path && npm run lint --scripts-prepend-node-path",
     "version": "npm run format --scripts-prepend-node-path && git add -A src",
     "postversion": "git push && git push --tags"
   },
