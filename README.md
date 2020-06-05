@@ -1,5 +1,7 @@
 # color-interfaces
 
+[![Coverage Status](https://img.shields.io/codecov/c/github/chriskr/color-interfaces/master.svg)](https://codecov.io/gh/chriskr/color-interfaces)
+
 ### Basic Usage
 
 ```js
@@ -16,7 +18,7 @@
 
 ### Example
 
-[color converter tool](https://chriskr.github.io/color-tool/build/)
+[color tool](https://chriskr.github.io/color-tool/build/)
 
 ### Interfaces
 
