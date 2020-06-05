@@ -1,9 +1,13 @@
 {
   "name": "color-interfaces",
-  "version": "0.0.15",
+  "version": "0.0.18",
   "description": "interfaces for color spaces",
   "repository": "https://github.com/chriskr/color-interfaces",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "author": "chrisk",
   "license": "Apache-2.0",
   "keywords": [
