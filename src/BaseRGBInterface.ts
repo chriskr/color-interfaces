@@ -1,4 +1,4 @@
-import { Color } from "./ColorInterface";
+import { Color } from './ColorInterface';
 
 class BaseRGBInterface {
   protected color: Color;

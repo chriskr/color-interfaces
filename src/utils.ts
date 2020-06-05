@@ -81,7 +81,7 @@ const cssParserTuples: [RegExp, ParseFromMatch][] = [
 export const cssParsers = new Map(cssParserTuples);
 
 export const parseCSSColor = (input: string) => {
-  let tuple = cssParserTuples.find(([re]) => re.test(input));
+  const tuple = cssParserTuples.find(([re]) => re.test(input));
   if (tuple) {
     const [re, parser] = tuple;
     return parser(input.match(re)!);

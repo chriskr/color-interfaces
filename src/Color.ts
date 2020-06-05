@@ -228,11 +228,11 @@ class Color implements Color_ {
 
   // http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
   getLuminance() {
-    const RGB = this.rgb.get().map(function (c: number) {
+    const rgb = this.rgb.get().map((c: number) => {
       const cs = c / 255;
       return cs <= 0.03928 ? cs / 12.92 : Math.pow((cs + 0.055) / 1.055, 2.4);
     });
-    return 0.2126 * RGB[0] + 0.7152 * RGB[1] + 0.0722 * RGB[2];
+    return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
   }
 
   // http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
@@ -292,7 +292,7 @@ class Color implements Color_ {
     [this.red, this.green, this.blue] = mixRgbColors(
       rgb3 as RGB,
       rgb2 as RGB,
-      mix
+      mix,
     );
   }
 

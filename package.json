@@ -1,6 +1,6 @@
 {
   "name": "color-interfaces",
-  "version": "0.0.22",
+  "version": "0.1.0",
   "description": "interfaces for color spaces",
   "repository": "https://github.com/chriskr/color-interfaces",
   "main": "dist/index.js",
@@ -27,7 +27,13 @@
   "scripts": {
     "watch": "cross-env NODE_ENV=development webpack -w --mode development --display-error-details",
     "build": "cross-env NODE_ENV=production webpack --mode production",
-    "test": "jest --config jest.config.js && coveralls < coverage/lcov.info"
+    "test": "jest --config jest.config.js && coveralls < coverage/lcov.info",
+    "format": "prettier --write \"src/**/*.ts\" ",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
@@ -40,7 +46,10 @@
     "coveralls": "^3.1.0",
     "cross-env": "^7.0.2",
     "jest": "^26.0.1",
+    "prettier": "^2.0.5",
     "ts-loader": "^7.0.4",
+    "tslint": "^6.1.2",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.9.2",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
