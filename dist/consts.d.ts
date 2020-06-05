@@ -6,7 +6,8 @@ export declare enum ColorType {
     RGBA = 4,
     HSL = 5,
     HSLA = 6,
-    HSV = 7
+    HSV = 7,
+    HSVA = 8
 }
 export declare const DEFAULT_COLOR = "black";
 export declare const BLACK: number[];

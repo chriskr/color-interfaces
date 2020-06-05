@@ -1,27 +1,30 @@
-"use strict";
+'use strict';
 
-const path = require("path");
-const isProduction = process.env.NODE_ENV === "production";
-const babelLoader = {
-  loader: "ts-loader",
-  test: /.tsx?$/,
-  exclude: /node_modules/,
-};
+const path = require('path');
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = [];
 
 const baseConfig = {
   output: {
-    libraryTarget: "commonjs2",
+    filename: 'index.js',
+    path: path.resolve(__dirname, 'dist'),
+    libraryTarget: 'commonjs2',
   },
   module: {
-    rules: [babelLoader],
+    rules: [
+      {
+        loader: 'ts-loader',
+        test: /.tsx?$/,
+        exclude: /node_modules/,
+      },
+    ],
   },
   optimization: {
     minimize: false,
   },
   resolve: {
-    extensions: [".tsx", ".ts"],
+    extensions: ['.tsx', '.ts'],
   },
 };
 
@@ -30,16 +33,8 @@ module.exports.push(baseConfig);
 if (isProduction) {
   module.exports.push(
     Object.assign({}, baseConfig, {
-      output: {
-        filename: "main.min.js",
-        path: path.resolve(__dirname, "dist"),
-        libraryTarget: "commonjs2",
-      },
       optimization: {
         minimize: true,
-      },
-      module: {
-        rules: [babelLoader],
       },
     })
   );
