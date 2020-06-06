@@ -29,7 +29,7 @@ test('parse css colors', () => {
     ['hsla(89, 56%, 55%, .34)', 'hsva', 'hsla(89, 56%, 55%, 0.34)'],
     ['lime', 'hex', '#0f0'],
   ].forEach(([cssColor, colorSpace, expected]) =>
-    expect(Color.parseCSSColor(cssColor)[colorSpace].toCss()).toBe(expected)
+    expect(Color.parseCSSColor(cssColor)[colorSpace].toCss()).toBe(expected),
   );
 });
 
@@ -41,7 +41,7 @@ test('new color', () => {
     [[60, 1, 1, 0.5], Color.ColorType.HSVA, 'hsva', [60, 1, 1, 0.5]],
     [[60, 1, 0.5, 0.5], Color.ColorType.HSLA, 'hsla', [60, 1, 0.5, 0.5]],
   ].forEach(([initArgs, type, colorSpace, expected]) =>
-    expect(new Color(initArgs, type)[colorSpace].get()).toStrictEqual(expected)
+    expect(new Color(initArgs, type)[colorSpace].get()).toStrictEqual(expected),
   );
 });
 
@@ -81,7 +81,7 @@ test('convert color spaces', () => {
     [[240, 1, 0.5], Color.ColorType.HSL, 'rgb', [0, 0, 255]],
     [[300, 1, 0.5], Color.ColorType.HSL, 'rgb', [255, 0, 255]],
   ].forEach(([initArgs, type, colorSpace, expected]) =>
-    expect(new Color(initArgs, type)[colorSpace].get()).toStrictEqual(expected)
+    expect(new Color(initArgs, type)[colorSpace].get()).toStrictEqual(expected),
   );
 });
 
@@ -110,4 +110,64 @@ test('convert from rgb to hsv to hsl back to rgb', () => {
       }
     }
   }
+});
+
+test('color ratio', () => {
+  [
+    [0, 0, 0],
+    [1, 1, 1],
+    [10, 11, 12],
+    [236, 178, 125],
+    [255, 255, 255],
+  ].forEach((rgb) => {
+    const color = new Color(rgb);
+    const ratio = color.getContrastRatio(new Color(rgb));
+    expect(ratio).toBe(1);
+  });
+
+  [
+    [
+      [0, 0, 0],
+      [1, 1, 1],
+    ],
+    [
+      [10, 11, 12],
+      [10, 11, 13],
+    ],
+    [
+      [236, 178, 125],
+      [246, 198, 225],
+    ],
+    [
+      [255, 254, 255],
+      [255, 255, 255],
+    ],
+  ].forEach(([rgb1, rgb2]) => {
+    const color = new Color(rgb1);
+    const ratio = color.getContrastRatio(new Color(rgb2));
+    expect(ratio).toBeGreaterThan(1);
+  });
+
+  [
+    [
+      [0, 0, 0],
+      [1, 1, 1],
+    ],
+    [
+      [10, 11, 12],
+      [10, 11, 13],
+    ],
+    [
+      [236, 178, 125],
+      [246, 198, 225],
+    ],
+    [
+      [255, 254, 255],
+      [255, 255, 255],
+    ],
+  ].forEach(([rgb1, rgb2]) => {
+    const color = new Color(rgb2);
+    const ratio = color.getContrastRatio(new Color(rgb1));
+    expect(ratio).toBeGreaterThan(1);
+  });
 });
