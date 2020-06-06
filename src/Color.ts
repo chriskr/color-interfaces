@@ -228,11 +228,13 @@ class Color implements Color_ {
 
   // http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
   getLuminance() {
-    const rgb = this.rgb.get().map((c: number) => {
-      const cs = c / 255;
-      return cs <= 0.03928 ? cs / 12.92 : Math.pow((cs + 0.055) / 1.055, 2.4);
-    });
-    return 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
+    const [r, g, b] = this.rgb
+      .get()
+      .map((c: number) => c / 255)
+      .map((c: number) =>
+        c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4),
+      );
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
   }
 
   // http://www.w3.org/TR/2008/REC-WCAG20-20081211/#contrast-ratiodef
