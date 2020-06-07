@@ -1,4 +1,4 @@
-import Color from '../src/index';
+import Color, { ColorType, createColor } from '../src/index';
 
 test('parse css colors', () => {
   [
@@ -28,9 +28,10 @@ test('parse css colors', () => {
     ['hsla(89, 56%, 55%, .34)', 'hsla', 'hsla(89, 56%, 55%, 0.34)'],
     ['hsla(89, 56%, 55%, .34)', 'hsva', 'hsla(89, 56%, 55%, 0.34)'],
     ['lime', 'hex', '#0f0'],
-  ].forEach(([cssColor, colorSpace, expected]) =>
-    expect(Color.parseCSSColor(cssColor)[colorSpace].toCss()).toBe(expected),
-  );
+  ].forEach(([cssColor, colorSpace, expected]) => {
+    expect(Color.parseCSSColor(cssColor)[colorSpace].toCss()).toBe(expected);
+    expect(createColor(cssColor)[colorSpace].toCss()).toBe(expected);
+  });
 });
 
 test('new color', () => {
@@ -170,4 +171,22 @@ test('color ratio', () => {
     const ratio = color.getContrastRatio(new Color(rgb1));
     expect(ratio).toBeGreaterThan(1);
   });
+});
+
+test('invert color', () => {
+  [[[120, 1, 0.5], 300]].forEach(([initArgs, expected]) =>
+    expect(new Color(initArgs, ColorType.HSL).invert().hsl.h).toBe(expected),
+  );
+});
+
+test('mix color', () => {
+  [
+    [[0, 0, 0], [254, 254, 254], 0.5, [127, 127, 127]],
+  ].forEach(([rgb1, rgb2, p, expected]) =>
+    expect(
+      new Color(rgb1, ColorType.RGB)
+        .mixWithColor(new Color(rgb2, ColorType.RGB), p)
+        .rgb.get(),
+    ).toStrictEqual(expected),
+  );
 });

@@ -7,15 +7,33 @@
 ### Basic Usage
 
 ```js
-> const color = new Color();
+> const color = createColor();
 > color.rgb.r = 200;
 < 200
+
 > color.hsl.toCss()
 < "hsl(0, 100%, 39%)"
+
 > color.rgb.toCss()
 < "rgb(200, 0, 0)"
+
 > color.hex.toCss()
 < "#c80000"
+
+> createColor('rgb(22, 35, 234)').rgb.get()
+< [22, 35, 234]
+
+> createColor('rgba(22, 35, 234, 0.7)').rgba.get()
+< [22, 35, 234, 0.7]
+
+> createColor('hsl(310, 85%, 65%)').hsl.get()
+< [310, 0.85, 0.65]
+
+> createColor('hsla(310, 85%, 65%, 0.45)').hsl.get()
+< [310, 0.85, 0.65]
+
+> createColor('lime').rgb.get()
+< [0, 255, 0]
 ```
 
 ### Example
