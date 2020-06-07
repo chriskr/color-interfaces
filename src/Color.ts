@@ -25,6 +25,9 @@ class Color implements Color_ {
   static get ColorType() {
     return ColorType;
   }
+  static createColor(value?: number[] | string, type?: ColorType) {
+    return new Color(value, type);
+  }
 
   private _alpha: number = 1;
   private red: number = 0;
@@ -71,7 +74,7 @@ class Color implements Color_ {
   }
 
   parseCSSColor(input: string) {
-    this.rgba.set(parseCSSColor(input).rgba.get());
+    parseCSSColor(input, this);
   }
 
   get rgb(): RGBInterface {
@@ -316,3 +319,4 @@ class Color implements Color_ {
 }
 
 export default Color;
+export const createColor = Color.createColor;

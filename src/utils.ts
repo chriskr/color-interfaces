@@ -13,7 +13,7 @@ import {
 import { Color as Color_, RGB } from './ColorInterface';
 import Color from './Color';
 
-type ParseFromMatch = (match: RegExpMatchArray, color?: Color) => Color;
+type ParseFromMatch = (match: RegExpMatchArray, color: Color) => Color;
 
 const hex6ToColor: ParseFromMatch = (match, color = new Color()) => {
   const rgb = match.slice(1).map((hex) => Number.parseInt(hex, 16)) as RGB;
@@ -43,26 +43,28 @@ const hex4ToColor: ParseFromMatch = (match, color = new Color()) => {
   return color;
 };
 
-const rgbToColor: ParseFromMatch = (match) => {
-  const rgb = match.slice(1).map((digit) => Number.parseInt(digit, 10));
-  return new Color(rgb, ColorType.RGB);
+const rgbToColor: ParseFromMatch = (match, color = new Color()) => {
+  const rgb = match.slice(1).map((digit) => Number.parseInt(digit, 10)) as RGB;
+  color.rgb.set(rgb);
+  return color;
 };
 
-const rgbaToColor: ParseFromMatch = (match) => {
+const rgbaToColor: ParseFromMatch = (match, color = new Color()) => {
   const alpha = Number.parseFloat(match.pop()!);
-  const color = rgbToColor(match);
+  rgbToColor(match, color);
   color.alpha = alpha;
   return color;
 };
 
-const hslToColor: ParseFromMatch = (match) => {
+const hslToColor: ParseFromMatch = (match, color = new Color()) => {
   const [h, s, l] = match.slice(1).map((digit) => Number.parseInt(digit, 10));
-  return new Color([h % 360, s / 100, l / 100], ColorType.HSL);
+  color.hsl.set([h % 360, s / 100, l / 100]);
+  return color;
 };
 
-const hslaToColor: ParseFromMatch = (match) => {
+const hslaToColor: ParseFromMatch = (match, color = new Color()) => {
   const alpha = Number.parseFloat(match.pop()!);
-  const color = hslToColor(match);
+  hslToColor(match, color);
   color.alpha = alpha;
   return color;
 };
@@ -80,16 +82,18 @@ const cssParserTuples: [RegExp, ParseFromMatch][] = [
 
 export const cssParsers = new Map(cssParserTuples);
 
-export const parseCSSColor = (input: string) => {
+export const parseCSSColor = (input: string, color = new Color()) => {
   const tuple = cssParserTuples.find(([re]) => re.test(input));
   if (tuple) {
     const [re, parser] = tuple;
-    return parser(input.match(re)!);
+    return parser(input.match(re)!, color);
   }
   if (colorKeywords.has(input.trim())) {
-    return new Color(colorKeywords.get(input.trim()), ColorType.RGB);
+    color.rgb.set(colorKeywords.get(input.trim())!);
+    return color;
   }
-  return new Color([0, 0, 0]);
+  color.rgb.set([0, 0, 0]);
+  return color;
 };
 
 export const clamp = (val: number, min: number, max: number) => {
@@ -127,10 +131,6 @@ export const hueToRgb = (hue: number) => {
       return [255, 0, 255 - delta];
   }
   return [0, 0, 0];
-};
-
-export const parseInt10 = (i: string) => {
-  return Number.parseInt(i, 10);
 };
 
 export const toTwoHex = (n: number) => {
