@@ -29,8 +29,8 @@
 > createColor('hsl(310, 85%, 65%)').hsl.get()
 < [310, 0.85, 0.65]
 
-> createColor('hsla(310, 85%, 65%, 0.45)').hsl.get()
-< [310, 0.85, 0.65]
+> createColor('hsla(310, 85%, 65%, 0.45)').hsla.get()
+< [310, 0.85, 0.65, 0.45]
 
 > createColor('lime').rgb.get()
 < [0, 255, 0]
