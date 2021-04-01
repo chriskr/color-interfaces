@@ -64,5 +64,5 @@
     "postversion": "git push && git push --tags"
   },
   "types": "dist/index.d.ts",
-  "version": "0.1.22"
+  "version": "0.1.30"
 }
